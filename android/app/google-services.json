@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "741506622193",
+    "project_id": "igi-course-project",
+    "storage_bucket": "igi-course-project.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:741506622193:android:cc3aeed76285a7967d3f50",
+        "android_client_info": {
+          "package_name": "com.example.igi_course_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEZHckNA6ZrCHS6HZdjlJxDwuaR5njo9E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

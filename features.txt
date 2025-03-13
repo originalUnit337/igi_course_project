@@ -1,0 +1,15 @@
+Student:
+	1. Sign to the course;
+	2. See all courses;
+	3. Course tracking;
+	4. Profile changes (username, password);
+	5. Marks on each course and on each task type (grammer, audio, reading);
+Teacher:
+	1. Create courses;
+	2. Edit courses;
+	3. Delete courses (his/her only);
+	4. Profile changes (username, password);
+	5. See students on his/her course;
+Admin:
+	1. See all users (students, teachers, admins);
+	2. Moderate courses;

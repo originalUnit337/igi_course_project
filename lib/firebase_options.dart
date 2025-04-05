@@ -21,13 +21,25 @@ class DefaultFirebaseOptions {
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        return android;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for android - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.iOS:
-        return ios;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
-        return windows;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for windows - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -49,38 +61,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'igi-course-project.firebasestorage.app',
   );
 
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCEZHckNA6ZrCHS6HZdjlJxDwuaR5njo9E',
-    appId: '1:741506622193:android:cc3aeed76285a7967d3f50',
-    messagingSenderId: '741506622193',
-    projectId: 'igi-course-project',
-    storageBucket: 'igi-course-project.firebasestorage.app',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDZ6wDRSVaPs9eqpRPHdBX6bhoDfSchwqY',
-    appId: '1:741506622193:ios:619ea28ec529896d7d3f50',
-    messagingSenderId: '741506622193',
-    projectId: 'igi-course-project',
-    storageBucket: 'igi-course-project.firebasestorage.app',
-    iosBundleId: 'com.example.igiCourseProject',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyDZ6wDRSVaPs9eqpRPHdBX6bhoDfSchwqY',
-    appId: '1:741506622193:ios:619ea28ec529896d7d3f50',
-    messagingSenderId: '741506622193',
-    projectId: 'igi-course-project',
-    storageBucket: 'igi-course-project.firebasestorage.app',
-    iosBundleId: 'com.example.igiCourseProject',
-  );
-
-  static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyCwyFi5H9IhNKDI5fIPIIaGHVP2qRr5-rg',
-    appId: '1:741506622193:web:b6329fe5ab456ef97d3f50',
-    messagingSenderId: '741506622193',
-    projectId: 'igi-course-project',
-    authDomain: 'igi-course-project.firebaseapp.com',
-    storageBucket: 'igi-course-project.firebasestorage.app',
-  );
 }

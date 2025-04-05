@@ -4,6 +4,8 @@ import 'reading_exercise.dart';
 
 class Course {
   final int courseId;
+  final String name;
+  final String description;
   final String language;
   final List<GrammarExercise> grammarExercises;
   final List<ReadingExercise> readingExercises;
@@ -11,6 +13,8 @@ class Course {
 
   Course({
     required this.courseId,
+    required this.name,
+    required this.description,
     required this.language,
     required this.grammarExercises,
     required this.readingExercises,
@@ -36,6 +40,8 @@ class Course {
 
     return Course(
       courseId: json['courseId'],
+      name: json['name'],
+      description: json['description'],
       language: json['language'],
       grammarExercises: grammarExercisesList,
       readingExercises: readingExercisesList,
@@ -46,6 +52,8 @@ class Course {
   Map<String, dynamic> toJson() {
     return {
       'courseId': courseId,
+      'name': name,
+      'description': description,
       'language': language,
       'grammarExercises': grammarExercises.map((e) => e.toJson()).toList(),
       'readingExercises': readingExercises.map((e) => e.toJson()).toList(),

@@ -10,9 +10,12 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
   CourseBloc(this.courseRepository) : super(CourseInitial()) {
     on<AddCourseEvent>(_onAddCourse);
     on<FetchCourseEvent>(_onFetchCourses);
+
+    add(FetchCourseEvent());
   }
 
-  Future<void> _onAddCourse(AddCourseEvent event, Emitter<CourseState> emit) async {
+  Future<void> _onAddCourse(
+      AddCourseEvent event, Emitter<CourseState> emit) async {
     emit(CourseLoading());
     try {
       await courseRepository.addCourse(event.course);
@@ -23,7 +26,8 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
     }
   }
 
-  Future<void> _onFetchCourses(FetchCourseEvent event, Emitter<CourseState> emit) async {
+  Future<void> _onFetchCourses(
+      FetchCourseEvent event, Emitter<CourseState> emit) async {
     emit(CourseLoading());
     try {
       final courses = await courseRepository.fetchCourses();

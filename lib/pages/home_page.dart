@@ -39,7 +39,17 @@ class HomePage extends StatelessWidget {
                 itemCount: state.courses.length,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    title: Text(state.courses[index].language),
+                    leading: SizedBox(
+                      width: 100,
+                      height: 70,
+                      child: Placeholder(),
+                    ),
+                    title: Text(state.courses[index].name),
+                    subtitle: Text(state.courses[index].description),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/previewCoursePage',
+                          arguments: state.courses[index]);
+                    },
                   );
                 });
           case CourseError _:
@@ -59,6 +69,8 @@ class HomePage extends StatelessWidget {
                 onPressed: () {
                   Course course = Course(
                     courseId: 1,
+                    name: 'alo',
+                    description: 'OGOG',
                     language: "English",
                     grammarExercises: [
                       GrammarExercise(

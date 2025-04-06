@@ -12,16 +12,18 @@ class PreviewCoursePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Preview: ${course.name}'),
       ),
-      body: Center(
-        child: Column(
-          children: [
-            Text(
-              course.name,
-              style: Theme.of(context).textTheme.labelLarge,
-            ),
-            Text(course.description,
-                style: Theme.of(context).textTheme.bodyMedium),
-          ],
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: [
+              Text(
+                course.name,
+                style: Theme.of(context).textTheme.labelLarge,
+              ),
+              Text(course.description,
+                  style: Theme.of(context).textTheme.bodyMedium),
+            ],
+          ),
         ),
       ),
     );

@@ -21,6 +21,28 @@ class HomePage extends StatelessWidget {
         title: Text('ogo'),
         centerTitle: true,
         actions: [
+          // IconButton(
+          //   icon: Icon(Icons.login),
+          //   onPressed: () {
+          //     Navigator.pushNamed(
+          //         context, '/loginPage'); // Переход на страницу логина
+          //   },
+          // ),
+          // IconButton(
+          //   icon: Icon(Icons.person_add),
+          //   onPressed: () {
+          //     Navigator.pushNamed(
+          //         context, '/registerPage'); // Переход на страницу регистрации
+          //   },
+          // ),
+          TextButton.icon(
+            onPressed: () {
+              Navigator.pushNamed(
+                  context, '/loginPage'); // Переход на страницу логина
+            },
+            label: Text('Login'),
+            icon: Icon(Icons.login),
+          ),
           Icon(Icons.home),
           Icon(Icons.search),
           Icon(Icons.notifications),

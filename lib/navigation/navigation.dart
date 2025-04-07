@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../DAL/models/course/course.dart';
+import '../pages/authorization/login_page.dart';
+import '../pages/authorization/registration_page.dart';
 import '../pages/course/preview_course_page.dart';
 import '../pages/home_page.dart';
 
@@ -16,6 +18,10 @@ class AppNavigator {
             course: course,
           ),
         );
+      case '/loginPage':
+        return MaterialPageRoute(builder: (context) => LoginPage());
+      case '/registrationPage':
+        return MaterialPageRoute(builder: (context) => RegistrationPage());
       default:
         return MaterialPageRoute(builder: (context) => const HomePage());
     }

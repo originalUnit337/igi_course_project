@@ -1,0 +1,104 @@
+{
+    "courses": [
+        {
+            "courseId": 1,
+            "language": "English",
+            "grammarExercises": [
+                {
+                    "type": "fill_in_the_blanks",
+                    "questions": [
+                        {
+                            "task": "She ___ to the gym every day.",
+                            "options": [
+                                "go",
+                                "goes",
+                                "gone",
+                                "going",
+                                "goed"
+                            ],
+                            "answer": "goes"
+                        },
+                        {
+                            "task": "They ___ a movie last night.",
+                            "options": [
+                                "watch",
+                                "watches",
+                                "watched",
+                                "watching",
+                                "watchs"
+                            ],
+                            "answer": "watched"
+                        },
+                        {
+                            "task": "He ___ his homework every evening.",
+                            "options": [
+                                "do",
+                                "does",
+                                "doing",
+                                "done",
+                                "did"
+                            ],
+                            "answer": "does"
+                        },
+                        {
+                            "task": "I ___ to the store yesterday.",
+                            "options": [
+                                "go",
+                                "went",
+                                "gone",
+                                "going",
+                                "goes"
+                            ],
+                            "answer": "went"
+                        },
+                        {
+                            "task": "We ___ a great time at the party.",
+                            "options": [
+                                "have",
+                                "has",
+                                "had",
+                                "having",
+                                "haves"
+                            ],
+                            "answer": "had"
+                        }
+                    ]
+                }
+            ],
+            "readingExercises": [
+                {
+                    "type": "passage_reading",
+                    "questions": [
+                        {
+                            "task": "What is this passage about ?",
+                            "options": [
+                                "The passage is about the importance of education.",
+                                "The passage is about sports.",
+                                "The passage is about technology.",
+                                "The passage is about health."
+                            ],
+                            "answer": "The passage is about the importance of education."
+                        }
+                    ]
+                }
+            ],
+            "auditionExercises": [
+                {
+                    "type": "answer_questions",
+                    "questions": [
+                        {
+                            "task": "What is this dialog about ?",
+                            "options": [
+                                "The dialog is about the importance of education.",
+                                "The dialog is about sports.",
+                                "The dialog is about technology.",
+                                "The dialog is about health."
+                            ],
+                            "answer": "The dialog is about the importance of education."
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

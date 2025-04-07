@@ -10,6 +10,9 @@ Teacher:
 	3. Delete courses (his/her only);
 	4. Profile changes (username, password);
 	5. See students on his/her course;
+	? 6. Get the admin's suggestions to moderate.
 Admin:
 	1. See all users (students, teachers, admins);
 	2. Moderate courses;
+	? 3. Send to teacher suggestions to moderate the course.
+	? 4. Can block user's and they can see that the have been blocked.

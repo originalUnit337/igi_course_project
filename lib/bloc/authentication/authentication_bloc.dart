@@ -10,6 +10,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(this._authRepository) : super(AuthInitial()) {
     on<AuthSignInEvent>(_authSignInEvent);
     on<AuthSignOutEvent>(_authSignOut);
+    on<AuthSignUpEvent>(_authSignUpEvent);
   }
 
   Future<void> _authSignInEvent(
@@ -27,5 +28,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       AuthSignOutEvent event, Emitter<AuthState> emit) async {
     await _authRepository.signOut();
     emit(AuthInitial());
+  }
+
+  Future<void> _authSignUpEvent(
+      AuthSignUpEvent event, Emitter<AuthState> emit) async {
+    emit(AuthLoading());
+    try {
+      final user =
+          await _authRepository.signUp(event.email, event.password, event.role);
+      emit(AuthSignedUp(userId: user!.uid));
+    } catch (e) {
+      emit(AuthError(message: e.toString()));
+    }
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:igi_course_project/pages/home_page.dart';
 
 import '../../bloc/authentication/authentication_bloc.dart';
 import '../../bloc/authentication/authentication_event.dart';
@@ -20,7 +21,12 @@ class LoginPage extends StatelessWidget {
         child: BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is AuthSignedIn) {
-              Navigator.pushReplacementNamed(context, '/homePage');
+              //Navigator.pushReplacementNamed(context, '/homePage');
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => HomePage()),
+                (Route<dynamic> route) => false,
+              );
             } else if (state is AuthError) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(state.message)),
@@ -28,56 +34,13 @@ class LoginPage extends StatelessWidget {
             }
           },
           child: Padding(
-            padding: const EdgeInsets.all(16.0), // Добавляем отступы
+            padding: const EdgeInsets.all(16.0),
             child: Row(
               children: [
                 Expanded(
                   child: Image.asset('login_img.png'),
                 ),
                 Expanded(
-                  // child: Column(
-                  //   mainAxisAlignment:
-                  //       MainAxisAlignment.center, // Центрируем содержимое
-                  //   children: [
-                  //     Text(
-                  //       'Please login to get access to bla-bla-bla',
-                  //       style: TextStyle(fontSize: 18),
-                  //       textAlign: TextAlign.center,
-                  //     ),
-                  //     SizedBox(
-                  //         height: 20), // Отступ между текстом и полями ввода
-                  //     TextField(
-                  //       decoration: InputDecoration(
-                  //         labelText: 'Email',
-                  //         border: OutlineInputBorder(),
-                  //       ),
-                  //       keyboardType: TextInputType.emailAddress,
-                  //     ),
-                  //     SizedBox(height: 16), // Отступ между полями ввода
-                  //     TextField(
-                  //       decoration: InputDecoration(
-                  //         labelText: 'Password',
-                  //         border: OutlineInputBorder(),
-                  //       ),
-                  //       obscureText: true,
-                  //     ),
-                  //     SizedBox(
-                  //         height: 20), // Отступ между полем ввода и кнопкой
-                  //     ElevatedButton(
-                  //       onPressed: () {
-                  //         // Логика для входа
-                  //       },
-                  //       child: Text('Login'),
-                  //     ),
-                  //     SizedBox(
-                  //         height: 20), // Отступ между кнопкой и разделителем
-                  //     Divider(),
-                  //     SizedBox(
-                  //         height: 20), // Отступ между разделителем и текстом
-                  //     Text('Or login with: '),
-                  //     // Здесь можно добавить кнопки для других способов входа
-                  //   ],
-                  // ),
                   child: LoginForm(),
                 ),
               ],
@@ -100,51 +63,73 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center, // Центрируем содержимое
-      children: [
-        Text(
-          'Please login to get access to bla-bla-bla',
-          style: TextStyle(fontSize: 18),
-          textAlign: TextAlign.center,
-        ),
-        SizedBox(height: 20), // Отступ между текстом и полями ввода
-        TextField(
-          controller: _emailController,
-          decoration: InputDecoration(
-            labelText: 'Email',
-            border: OutlineInputBorder(),
+    return BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Please login to get access to bla-bla-bla',
+            style: TextStyle(fontSize: 18),
+            textAlign: TextAlign.center,
           ),
-          keyboardType: TextInputType.emailAddress,
-        ),
-        SizedBox(height: 16), // Отступ между полями ввода
-        TextField(
-          controller: _passwordController,
-          decoration: InputDecoration(
-            labelText: 'Password',
-            border: OutlineInputBorder(),
+          SizedBox(height: 20),
+          TextField(
+            controller: _emailController,
+            decoration: InputDecoration(
+              labelText: 'Email',
+              border: OutlineInputBorder(),
+            ),
+            keyboardType: TextInputType.emailAddress,
           ),
-          obscureText: true,
-        ),
-        SizedBox(height: 20), // Отступ между полем ввода и кнопкой
-        ElevatedButton(
-          onPressed: () {
-            // Получаем значения email и password
-            final email = _emailController.text;
-            final password = _passwordController.text;
-
-            // Добавляем событие для входа
-            BlocProvider.of<AuthBloc>(context)
-                .add(AuthSignInEvent(email: email, password: password));
-          },
-          child: Text('Login'),
-        ),
-        SizedBox(height: 20), // Отступ между кнопкой и разделителем
-        Divider(),
-        SizedBox(height: 20), // Отступ между разделителем и текстом
-        Text('Or login with: '),
-        // Здесь можно добавить кнопки для других способов входа
-      ],
-    );
+          SizedBox(height: 16),
+          TextField(
+            controller: _passwordController,
+            decoration: InputDecoration(
+              labelText: 'Password',
+              border: OutlineInputBorder(),
+            ),
+            obscureText: true,
+          ),
+          SizedBox(height: 20),
+          state is AuthLoading
+              ? CircularProgressIndicator()
+              : ElevatedButton(
+                  onPressed: () {
+                    final email = _emailController.text;
+                    final password = _passwordController.text;
+                    if (email.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Пожалуйста, введите email')),
+                      );
+                    } else if (!_isEmailValid(email)) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Введите корректный email')),
+                      );
+                    } else if (password.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Пожалуйста, введите пароль')),
+                      );
+                    } else {
+                      BlocProvider.of<AuthBloc>(context).add(
+                        AuthSignInEvent(email: email, password: password),
+                      );
+                    }
+                  },
+                  child: Text('Login'),
+                ),
+          SizedBox(height: 20),
+          Divider(),
+          SizedBox(height: 20),
+          Text('Or login with: '),
+        ],
+      );
+    });
   }
+}
+
+bool _isEmailValid(String email) {
+  final RegExp emailRegex = RegExp(
+    r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+  );
+  return emailRegex.hasMatch(email);
 }

@@ -15,3 +15,9 @@ class AuthError extends AuthState {
 
   AuthError({required this.message});
 }
+
+class AuthSignedUp extends AuthState {
+  final String userId;
+
+  AuthSignedUp({required this.userId});
+}

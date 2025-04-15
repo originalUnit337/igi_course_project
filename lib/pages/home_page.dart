@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 import '../DAL/models/course/course.dart';
 import '../DAL/models/course/grammar_exercise.dart';
@@ -17,37 +16,31 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Text('leading'),
-        title: Text('ogo'),
+        title: Text('Polyglot Path'),
         centerTitle: true,
         actions: [
-          // IconButton(
-          //   icon: Icon(Icons.login),
-          //   onPressed: () {
-          //     Navigator.pushNamed(
-          //         context, '/loginPage'); // Переход на страницу логина
-          //   },
-          // ),
-          // IconButton(
-          //   icon: Icon(Icons.person_add),
-          //   onPressed: () {
-          //     Navigator.pushNamed(
-          //         context, '/registerPage'); // Переход на страницу регистрации
-          //   },
-          // ),
           TextButton.icon(
             onPressed: () {
-              Navigator.pushNamed(
-                  context, '/loginPage'); // Переход на страницу логина
+              Navigator.pushNamed(context, '/loginPage');
             },
             label: Text('Login'),
             icon: Icon(Icons.login),
           ),
-          Icon(Icons.home),
-          Icon(Icons.search),
-          Icon(Icons.notifications),
-          Icon(Icons.more_vert),
-          Icon(Icons.dark_mode)
+          SizedBox(
+            width: 20,
+          ),
+          TextButton.icon(
+            onPressed: () {
+              Navigator.pushNamed(context, '/registrationPage');
+            },
+            label: Text('Register'),
+            icon: Icon(Icons.person_add),
+          )
+          // Icon(Icons.home),
+          // Icon(Icons.search),
+          // Icon(Icons.notifications),
+          // Icon(Icons.more_vert),
+          // Icon(Icons.dark_mode)
         ],
       ),
       body: BlocBuilder<CourseBloc, CourseState>(builder: (context, state) {
@@ -83,45 +76,6 @@ class HomePage extends StatelessWidget {
               child: Text('No courses available.'),
             );
         }
-        return Column(
-          children: [
-            SizedBox(
-              height: 200,
-              child: ElevatedButton(
-                onPressed: () {
-                  Course course = Course(
-                    courseId: 1,
-                    name: 'alo',
-                    description: 'OGOG',
-                    language: "English",
-                    grammarExercises: [
-                      GrammarExercise(
-                        type: "fill_in_the_blanks",
-                        questions: [
-                          Question(
-                            task: "She ___ to the gym every day.",
-                            options: ["go", "goes", "gone", "going", "goed"],
-                            answer: "goes",
-                          ),
-                        ],
-                      ),
-                    ],
-                    readingExercises: [],
-                    auditionExercises: [],
-                  );
-                  addCourse(course);
-                },
-                child: Text('TAP ME TO ADD COURSE'),
-              ),
-            ),
-            // CarouselView(
-            //   itemExtent: double.infinity,
-            //   children: List<Widget>.generate(10, (int index) {
-            //     return Center(child: Text('Item $index'));
-            //   }),
-            // ),
-          ],
-        );
       }),
       floatingActionButton: FloatingActionButton(
         onPressed: () => {

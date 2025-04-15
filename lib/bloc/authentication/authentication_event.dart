@@ -8,3 +8,11 @@ class AuthSignInEvent extends AuthEvent {
 }
 
 class AuthSignOutEvent extends AuthEvent {}
+
+class AuthSignUpEvent extends AuthEvent {
+  final String email;
+  final String password;
+  final String role;
+
+  AuthSignUpEvent(this.email, this.password, this.role);
+}

@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../DAL/repositories/authentication_repository.dart';
 import 'authentication_event.dart';
@@ -18,7 +19,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(AuthLoading());
     try {
       final user = await _authRepository.signIn(event.email, event.password);
-      emit(AuthSignedIn(userId: user!.uid));
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('userId', user!.uid);
+      await prefs.setString('role', 'user');
+      emit(AuthSignedIn(userId: user.uid));
     } catch (e) {
       emit(AuthError(message: e.toString()));
     }
@@ -36,7 +40,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       final user =
           await _authRepository.signUp(event.email, event.password, event.role);
-      emit(AuthSignedUp(userId: user!.uid));
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('userId', user!.uid);
+      await prefs.setString('role', 'user');
+      emit(AuthSignedUp(userId: user.uid));
     } catch (e) {
       emit(AuthError(message: e.toString()));
     }

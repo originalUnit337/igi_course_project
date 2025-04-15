@@ -15,35 +15,32 @@ class RegistrationPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Registration'),
       ),
-      body: BlocProvider(
-        create: (context) => GetIt.I<AuthBloc>(),
-        child: BlocListener<AuthBloc, AuthState>(
-          listener: (context, state) {
-            if (state is AuthSignedUp) {
-              //Navigator.pushReplacementNamed(context, '/homePage');
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => HomePage()),
-                (Route<dynamic> route) => false,
-              );
-            } else if (state is AuthError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.message)),
-              );
-            }
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Image.asset('login_img.png'),
-                ),
-                Expanded(
-                  child: RegisterForm(),
-                ),
-              ],
-            ),
+      body: BlocListener<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state is AuthSignedUp || state is AuthSignedIn) {
+            //Navigator.pushReplacementNamed(context, '/homePage');
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage()),
+              (Route<dynamic> route) => false,
+            );
+          } else if (state is AuthError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.message)),
+            );
+          }
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            children: [
+              Expanded(
+                child: Image.asset('login_img.png'),
+              ),
+              Expanded(
+                child: RegisterForm(),
+              ),
+            ],
           ),
         ),
       ),
@@ -61,7 +58,7 @@ class _RegisterFormState extends State<RegisterForm> {
   final TextEditingController _passwordController = TextEditingController();
   String? _selectedRole;
 
-  final List<String> _roles = ['Студент', 'Учитель'];
+  final List<String> _roles = ['student', 'teacher'];
 
   @override
   Widget build(BuildContext context) {

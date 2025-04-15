@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:igi_course_project/DAL/models/user_models/user.dart';
 import 'package:igi_course_project/bloc/authentication/authentication_bloc.dart';
 import 'package:igi_course_project/bloc/authentication/authentication_event.dart';
 import 'package:igi_course_project/bloc/authentication/authentication_state.dart';
@@ -14,7 +15,8 @@ import '../bloc/course/course_event.dart';
 import '../bloc/course/course_state.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  HomePage({super.key});
+  UserModel? currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +27,12 @@ class HomePage extends StatelessWidget {
         actions: [
           BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
             if (state is AuthSignedIn || state is AuthSignedUp) {
+              currentUser = (state as AuthSignedIn).userModel;
               return TextButton.icon(
                 onPressed: () {
                   BlocProvider.of<AuthBloc>(context).add(AuthSignOutEvent());
                 },
-                label: Text('Logout'),
+                label: Text(currentUser!.email),
                 icon: Icon(Icons.logout),
               );
             } else {

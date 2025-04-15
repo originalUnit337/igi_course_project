@@ -1,3 +1,5 @@
+import 'package:igi_course_project/DAL/models/user_models/user.dart';
+
 abstract class AuthState {}
 
 class AuthInitial extends AuthState {}
@@ -5,9 +7,9 @@ class AuthInitial extends AuthState {}
 class AuthLoading extends AuthState {}
 
 class AuthSignedIn extends AuthState {
-  final String userId;
+  final UserModel userModel;
 
-  AuthSignedIn({required this.userId});
+  AuthSignedIn({required this.userModel});
 }
 
 class AuthError extends AuthState {
@@ -17,7 +19,7 @@ class AuthError extends AuthState {
 }
 
 class AuthSignedUp extends AuthState {
-  final String userId;
+  final UserModel userModel;
 
-  AuthSignedUp({required this.userId});
+  AuthSignedUp({required this.userModel});
 }

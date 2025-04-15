@@ -1,18 +1,32 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:igi_course_project/DAL/models/user_models/admin.dart';
+import 'package:igi_course_project/DAL/models/user_models/student.dart';
+import 'package:igi_course_project/DAL/models/user_models/teacher.dart';
+import 'package:igi_course_project/DAL/models/user_models/user.dart';
 
 class AuthRepository {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<User?> signIn(String email, String password) async {
+  Future<UserModel?> signIn(String email, String password) async {
     try {
       UserCredential userCredential =
           await _firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-      return userCredential.user;
+      User? user = userCredential.user;
+      if (user != null) {
+        DocumentSnapshot doc =
+            await _firestore.collection('users').doc(user.uid).get();
+
+        if (doc.exists) {
+          String role = doc['role'];
+          return await _getUserByRole(user.uid, role);
+        }
+      }
+      return null;
     } catch (e) {
       throw Exception(e.toString());
     }
@@ -22,7 +36,7 @@ class AuthRepository {
     await _firebaseAuth.signOut();
   }
 
-  Future<User?> signUp(String email, String password, String role) async {
+  Future<UserModel?> signUp(String email, String password, String role) async {
     try {
       UserCredential userCredential = await _firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password);
@@ -32,10 +46,34 @@ class AuthRepository {
             .collection('users')
             .doc(user.uid)
             .set({'email': email, 'role': role});
+        //return await _getUserByRole(user.uid, role);
+        return await signIn(email, password);
       }
-      return user;
+      return null;
     } catch (e) {
       throw Exception(e.toString());
     }
+  }
+
+  Future<UserModel?> _getUserByRole(String uid, String role) async {
+    DocumentSnapshot doc = await _firestore.collection('users').doc(uid).get();
+
+    if (doc.exists) {
+      String email = doc['email'];
+
+      switch (role) {
+        case 'teacher':
+          // Здесь вы можете передать список курсов, если это необходимо
+          return Teacher(uid: uid, email: email, coursesId: []);
+        case 'student':
+          // Здесь вы можете передать список курсов, если это необходимо
+          return Student(uid: uid, email: email, coursesId: []);
+        case 'admin':
+          return Admin(uid: uid, email: email);
+        default:
+          return null; // Если роль не распознана
+      }
+    }
+    return null; // Если документ не существует
   }
 }

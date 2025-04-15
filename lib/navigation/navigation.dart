@@ -10,7 +10,7 @@ class AppNavigator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return MaterialPageRoute(builder: (context) => const HomePage());
+        return MaterialPageRoute(builder: (context) => HomePage());
       case '/previewCoursePage':
         final Course course = settings.arguments as Course;
         return MaterialPageRoute(
@@ -23,7 +23,7 @@ class AppNavigator {
       case '/registrationPage':
         return MaterialPageRoute(builder: (context) => RegistrationPage());
       default:
-        return MaterialPageRoute(builder: (context) => const HomePage());
+        return MaterialPageRoute(builder: (context) => HomePage());
     }
   }
 }

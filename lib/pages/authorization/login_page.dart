@@ -16,35 +16,32 @@ class LoginPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Login'),
       ),
-      body: BlocProvider(
-        create: (context) => GetIt.I<AuthBloc>(),
-        child: BlocListener<AuthBloc, AuthState>(
-          listener: (context, state) {
-            if (state is AuthSignedIn) {
-              //Navigator.pushReplacementNamed(context, '/homePage');
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => HomePage()),
-                (Route<dynamic> route) => false,
-              );
-            } else if (state is AuthError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.message)),
-              );
-            }
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Image.asset('login_img.png'),
-                ),
-                Expanded(
-                  child: LoginForm(),
-                ),
-              ],
-            ),
+      body: BlocListener<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state is AuthSignedIn) {
+            //Navigator.pushReplacementNamed(context, '/homePage');
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage()),
+              (Route<dynamic> route) => false,
+            );
+          } else if (state is AuthError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.message)),
+            );
+          }
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            children: [
+              Expanded(
+                child: Image.asset('login_img.png'),
+              ),
+              Expanded(
+                child: LoginForm(),
+              ),
+            ],
           ),
         ),
       ),

@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_it/get_it.dart';
+import 'package:igi_course_project/DAL/repositories/user_repository.dart';
+import 'package:igi_course_project/bloc/user/user_bloc.dart';
 
 import '../DAL/repositories/authentication_repository.dart';
 import '../DAL/repositories/course_repository.dart';
@@ -14,7 +16,9 @@ void setupLocator() {
   getIt.registerLazySingleton<CourseRepository>(
       () => CourseRepository(getIt<FirebaseFirestore>()));
   getIt.registerLazySingleton<AuthRepository>(() => AuthRepository());
+  getIt.registerLazySingleton<UserRepository>(() => UserRepository(getIt<FirebaseFirestore>()));
   getIt
       .registerFactory<CourseBloc>(() => CourseBloc(getIt<CourseRepository>()));
   getIt.registerFactory<AuthBloc>(() => AuthBloc(getIt<AuthRepository>()));
+  getIt.registerFactory<UserBloc>(() => UserBloc(getIt<UserRepository>()));
 }

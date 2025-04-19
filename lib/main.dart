@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:igi_course_project/bloc/authentication/authentication_bloc.dart';
+import 'package:igi_course_project/bloc/user/user_bloc.dart';
 import 'DI/service_locator.dart';
 import 'bloc/course/course_bloc.dart';
 import 'firebase_options.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => GetIt.I<AuthBloc>(),
         ),
+        BlocProvider(create: (context) => GetIt.I<UserBloc>()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

@@ -42,10 +42,10 @@ class AuthRepository {
           .createUserWithEmailAndPassword(email: email, password: password);
       User? user = userCredential.user;
       if (user != null) {
-        await _firestore
-            .collection('users')
-            .doc(user.uid)
-            .set({'email': email, 'role': role});
+        await _firestore.collection('users').doc(user.uid).set({
+          'email': email,
+          'role': role,
+        });
         //return await _getUserByRole(user.uid, role);
         return await signIn(email, password);
       }

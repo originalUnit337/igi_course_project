@@ -8,6 +8,7 @@ import 'package:igi_course_project/DAL/models/user_models/user.dart';
 import 'package:igi_course_project/bloc/authentication/authentication_bloc.dart';
 import 'package:igi_course_project/bloc/authentication/authentication_event.dart';
 import 'package:igi_course_project/bloc/authentication/authentication_state.dart';
+import 'package:igi_course_project/pages/roles/admin/admin_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../DAL/models/course/course.dart';
@@ -62,56 +63,55 @@ class HomePage extends StatelessWidget {
           }),
         ],
       ),
-      body: BlocBuilder<CourseBloc, CourseState>(builder: (context, state) {
-        switch (currentUser) {
-          case Admin _:
-            return Center(
-              child: Text('ADMIN'),
-            );
-          case Teacher _:
-            return Center(
-              child: Text('TEACHER'),
-            );
+      body: BlocBuilder<AuthBloc, AuthState>(builder: (context, authState) {
+        UserModel? currentUser;
+        if (authState is AuthSignedIn || authState is AuthSignedUp) {
+          currentUser = (authState as AuthSignedIn).userModel;
+        }
 
-          case Student _:
-            return Center(
-              child: Text('STUDENT'),
-            );
-
-          default:
-            switch (state) {
+        return BlocBuilder<CourseBloc, CourseState>(
+            builder: (context, courseState) {
+          if (currentUser is Admin) {
+            return AdminPage();
+            //return Center(child: Text('ADMIN'));
+          } else if (currentUser is Teacher) {
+            return Center(child: Text('TEACHER'));
+          } else if (currentUser is Student) {
+            return Center(child: Text('STUDENT'));
+          } else {
+            switch (courseState) {
               case CourseLoading _:
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
+                return Center(child: CircularProgressIndicator());
               case CourseLoaded _:
                 return ListView.builder(
-                    itemCount: state.courses.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
+                  itemCount: courseState.courses.length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      elevation: 4,
+                      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                      child: ListTile(
                         leading: SizedBox(
                           width: 100,
                           height: 70,
                           child: Placeholder(),
                         ),
-                        title: Text(state.courses[index].name),
-                        subtitle: Text(state.courses[index].description),
+                        title: Text(courseState.courses[index].name),
+                        subtitle: Text(courseState.courses[index].description),
                         onTap: () {
                           Navigator.pushNamed(context, '/previewCoursePage',
-                              arguments: state.courses[index]);
+                              arguments: courseState.courses[index]);
                         },
-                      );
-                    });
+                      ),
+                    );
+                  },
+                );
               case CourseError _:
-                return Center(
-                  child: Text('Error: ${state.message}'),
-                );
+                return Center(child: Text('Error: ${courseState.message}'));
               default:
-                return Center(
-                  child: Text('No courses available.'),
-                );
+                return Center(child: Text('No courses available.'));
             }
-        }
+          }
+        });
       }),
       floatingActionButton: FloatingActionButton(
         onPressed: () => {

@@ -49,6 +49,9 @@ class PreviewCoursePage extends StatelessWidget {
                   if (userId != null && userModel is Student) {
                     BlocProvider.of<CourseBloc>(context).add(
                       SubscribeToCourseEvent(userId, course.courseId.toString()),
+                    ); 
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Successfully subscribed')),
                     );
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(

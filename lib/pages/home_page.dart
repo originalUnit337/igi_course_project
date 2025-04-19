@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:igi_course_project/DAL/models/user_models/admin.dart';
+import 'package:igi_course_project/DAL/models/user_models/student.dart';
+import 'package:igi_course_project/DAL/models/user_models/teacher.dart';
 import 'package:igi_course_project/DAL/models/user_models/user.dart';
 import 'package:igi_course_project/bloc/authentication/authentication_bloc.dart';
 import 'package:igi_course_project/bloc/authentication/authentication_event.dart';
@@ -60,37 +63,54 @@ class HomePage extends StatelessWidget {
         ],
       ),
       body: BlocBuilder<CourseBloc, CourseState>(builder: (context, state) {
-        switch (state) {
-          case CourseLoading _:
+        switch (currentUser) {
+          case Admin _:
             return Center(
-              child: CircularProgressIndicator(),
+              child: Text('ADMIN'),
             );
-          case CourseLoaded _:
-            return ListView.builder(
-                itemCount: state.courses.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    leading: SizedBox(
-                      width: 100,
-                      height: 70,
-                      child: Placeholder(),
-                    ),
-                    title: Text(state.courses[index].name),
-                    subtitle: Text(state.courses[index].description),
-                    onTap: () {
-                      Navigator.pushNamed(context, '/previewCoursePage',
-                          arguments: state.courses[index]);
-                    },
-                  );
-                });
-          case CourseError _:
+          case Teacher _:
             return Center(
-              child: Text('Error: ${state.message}'),
+              child: Text('TEACHER'),
             );
+
+          case Student _:
+            return Center(
+              child: Text('STUDENT'),
+            );
+
           default:
-            return Center(
-              child: Text('No courses available.'),
-            );
+            switch (state) {
+              case CourseLoading _:
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              case CourseLoaded _:
+                return ListView.builder(
+                    itemCount: state.courses.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        leading: SizedBox(
+                          width: 100,
+                          height: 70,
+                          child: Placeholder(),
+                        ),
+                        title: Text(state.courses[index].name),
+                        subtitle: Text(state.courses[index].description),
+                        onTap: () {
+                          Navigator.pushNamed(context, '/previewCoursePage',
+                              arguments: state.courses[index]);
+                        },
+                      );
+                    });
+              case CourseError _:
+                return Center(
+                  child: Text('Error: ${state.message}'),
+                );
+              default:
+                return Center(
+                  child: Text('No courses available.'),
+                );
+            }
         }
       }),
       floatingActionButton: FloatingActionButton(
@@ -107,7 +127,6 @@ Future<void> addCourse(Course course) async {
   try {
     CollectionReference courses =
         FirebaseFirestore.instance.collection('Courses');
-
     await courses.add(course.toJson());
     print('Course added successfully');
   } on Exception catch (e) {

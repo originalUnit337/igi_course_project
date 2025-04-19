@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../DAL/repositories/course_repository.dart';
@@ -10,6 +12,7 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
   CourseBloc(this.courseRepository) : super(CourseInitial()) {
     on<AddCourseEvent>(_onAddCourse);
     on<FetchCourseEvent>(_onFetchCourses);
+    on<SubscribeToCourseEvent>(_onSubscribeToCourse);
 
     add(FetchCourseEvent());
   }
@@ -32,6 +35,17 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
     try {
       final courses = await courseRepository.fetchCourses();
       emit(CourseLoaded(courses));
+    } catch (e) {
+      emit(CourseError(e.toString()));
+    }
+  }
+
+  FutureOr<void> _onSubscribeToCourse(
+      SubscribeToCourseEvent event, Emitter<CourseState> emit) async {
+    emit(CourseLoading());
+    try {
+      await courseRepository.subscribeToCourse(event.userId, event.courseId);
+      emit(CourseLoaded([]));
     } catch (e) {
       emit(CourseError(e.toString()));
     }

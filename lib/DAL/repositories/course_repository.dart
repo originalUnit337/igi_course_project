@@ -23,4 +23,13 @@ class CourseRepository {
       rethrow;
     }
   }
+
+  Future<void> subscribeToCourse(String userId, String courseId) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .update({
+      'subscribedCourses': FieldValue.arrayUnion([courseId]),
+    });
+  }
 }

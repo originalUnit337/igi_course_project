@@ -17,4 +17,10 @@ class AddCourseEvent extends CourseEvent {
 }
 
 class FetchCourseEvent extends CourseEvent {}
- 
+
+class SubscribeToCourseEvent extends CourseEvent {
+  final String userId; 
+  final String courseId;
+
+  SubscribeToCourseEvent(this.userId, this.courseId);
+}

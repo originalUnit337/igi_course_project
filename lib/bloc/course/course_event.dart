@@ -24,3 +24,9 @@ class SubscribeToCourseEvent extends CourseEvent {
 
   SubscribeToCourseEvent(this.userId, this.courseId);
 }
+
+class DeleteCourseEvent extends CourseEvent {
+  final String courseId;
+
+  DeleteCourseEvent(this.courseId);
+}

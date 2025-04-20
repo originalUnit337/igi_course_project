@@ -1,0 +1,54 @@
+{
+    "grammarExercises": [
+      {
+        "type": "Fill in the blanks",
+        "questions": [
+          {
+            "task": "She ___ (to be) a doctor.",
+            "options": ["is", "are", "was", "were"],
+            "answer": "is"
+          },
+          {
+            "task": "What is the past tense of 'go'?",
+            "options": ["goes", "went", "going", "gone"],
+            "answer": "went"
+          }
+        ]
+      }
+    ],
+    "readingExercises": [
+      {
+        "type": "Comprehension",
+        "questions": [
+          {
+            "task": "What was the main idea of the passage?",
+            "options": ["A story about a knight", "A recipe", "A travel guide", "A history lesson"],
+            "answer": "A story about a knight"
+          },
+          {
+            "task": "Where does the sun rise?",
+            "options": ["In the west", "In the east", "In the north", "In the south"],
+            "answer": "In the east"
+          }
+        ]
+      }
+    ],
+    "auditionExercises": [
+      {
+        "type": "Listening comprehension",
+        "questions": [
+          {
+            "task": "What did you hear?",
+            "options": ["A bell", "A dog barking", "A car honking", "A person talking"],
+            "answer": "A bell"
+          },
+          {
+            "task": "What was the main topic of the audio?",
+            "options": ["Travel", "Food", "Sports", "Music"],
+            "answer": "Travel"
+          }
+        ]
+      }
+    ]
+  }
+  

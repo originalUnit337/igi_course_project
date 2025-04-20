@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:igi_course_project/bloc/course/course_bloc.dart';
+import 'package:igi_course_project/bloc/course/course_event.dart';
 import 'package:igi_course_project/bloc/course/course_state.dart';
 import 'package:igi_course_project/bloc/user/user_bloc.dart';
 import 'package:igi_course_project/bloc/user/user_state.dart';
@@ -57,13 +58,6 @@ class UserList extends StatelessWidget {
                     child: Placeholder(),
                   ),
                   title: Text(state.users[index]!.email),
-                  trailing: IconButton(
-                    icon: Icon(Icons.delete),
-                    onPressed: () {
-                      // Логика удаления пользователя
-                      //BlocProvider.of<UserBloc>(context).add(DeleteUserEvent(state.users[index].id));
-                    },
-                  ),
                 ),
               );
             },
@@ -85,7 +79,6 @@ class CourseList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Здесь вы можете использовать Bloc для получения списка курсов
     return BlocBuilder<CourseBloc, CourseState>(
       builder: (context, state) {
         if (state is CourseLoading) {
@@ -98,12 +91,17 @@ class CourseList extends StatelessWidget {
                 elevation: 4,
                 margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: ListTile(
+                  leading: SizedBox(
+                    width: 100,
+                    height: 70,
+                    child: Placeholder(),
+                  ),
                   title: Text(state.courses[index].name),
                   subtitle: Text(state.courses[index].description),
                   trailing: IconButton(
                     icon: Icon(Icons.delete),
                     onPressed: () {
-                      //BlocProvider.of<CourseBloc>(context).add(DeleteCourseEvent(state.courses[index].id));
+                      BlocProvider.of<CourseBloc>(context).add(DeleteCourseEvent(state.courses[index].documentId));
                     },
                   ),
                 ),

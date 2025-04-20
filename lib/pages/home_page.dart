@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:igi_course_project/DAL/models/course/audition_exercise.dart';
+import 'package:igi_course_project/DAL/models/course/reading_exercise.dart';
 import 'package:igi_course_project/DAL/models/user_models/admin.dart';
 import 'package:igi_course_project/DAL/models/user_models/student.dart';
 import 'package:igi_course_project/DAL/models/user_models/teacher.dart';
@@ -21,6 +23,7 @@ import '../bloc/course/course_state.dart';
 class HomePage extends StatelessWidget {
   HomePage({super.key});
   UserModel? currentUser;
+  
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +79,7 @@ class HomePage extends StatelessWidget {
             //return Center(child: Text('ADMIN'));
           } else if (currentUser is Teacher) {
             return Center(child: Text('TEACHER'));
-          } else if (currentUser is Student) {
+          } else if (currentUser is Teacher) {
             return Center(child: Text('STUDENT'));
           } else {
             switch (courseState) {
@@ -116,7 +119,8 @@ class HomePage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () => {
           //GetIt.I<CourseBloc>().add(FetchCourseEvent()),
-          BlocProvider.of<CourseBloc>(context).add(FetchCourseEvent()),
+          //BlocProvider.of<CourseBloc>(context).add(FetchCourseEvent()),
+          addCourseOGO()
         },
       ),
     );
@@ -132,4 +136,77 @@ Future<void> addCourse(Course course) async {
   } on Exception catch (e) {
     print(e.toString());
   }
+}
+
+addCourseOGO() async {
+  List<Question> grammarQuestions = [
+    Question(
+      task: "She ___ (to be) a doctor.",
+      options: ["is", "are", "was", "were"],
+      answer: "is",
+    ),
+    Question(
+      task: "What is the past tense of 'go'?",
+      options: ["goes", "went", "going", "gone"],
+      answer: "went",
+    ),
+  ];
+
+  // Создание грамматического упражнения
+  GrammarExercise grammarExercise = GrammarExercise(
+    type: "Fill in the blanks",
+    questions: grammarQuestions,
+  );
+
+  // Создание вопросов для чтения
+  List<Question> readingQuestions = [
+    Question(
+      task: "What was the main idea of the passage?",
+      options: ["A story about a knight", "A recipe", "A travel guide", "A history lesson"],
+      answer: "A story about a knight",
+    ),
+    Question(
+      task: "Where does the sun rise?",
+      options: ["In the west", "In the east", "In the north", "In the south"],
+      answer: "In the east",
+    ),
+  ];
+
+  // Создание упражнения на чтение
+  ReadingExercise readingExercise = ReadingExercise(
+    type: "Comprehension",
+    questions: readingQuestions,
+  );
+
+  // Создание вопросов для аудиоупражнений
+  List<Question> auditionQuestions = [
+    Question(
+      task: "What did you hear?",
+      options: ["A bell", "A dog barking", "A car honking", "A person talking"],
+      answer: "A bell",
+    ),
+    Question(
+      task: "What was the main topic of the audio?",
+      options: ["Travel", "Food", "Sports", "Music"],
+      answer: "Travel",
+    ),
+  ];
+
+  // Создание аудиоупражнения
+  AuditionExercise auditionExercise = AuditionExercise(
+    type: "Listening comprehension",
+    questions: auditionQuestions,
+  );
+
+  Course course = Course(
+    documentId: "1", // Пример ID документа
+    name: "English Language Course",
+    description: "A comprehensive course for learning English.",
+    language: "English",
+    grammarExercises: [grammarExercise],
+    readingExercises: [readingExercise],
+    auditionExercises: [auditionExercise],
+  );
+
+  await addCourse(course);
 }

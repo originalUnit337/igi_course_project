@@ -16,20 +16,45 @@ class CourseRepository {
     try {
       CollectionReference courses = firestore.collection('Courses');
       QuerySnapshot snapshot = await courses.get();
-      return snapshot.docs
-          .map((doc) => Course.fromJson(doc.data() as Map<String, dynamic>))
-          .toList();
+      return snapshot.docs.map((doc) {
+        String documentId = doc.id;
+        return Course.fromJson(doc.data() as Map<String, dynamic>,
+            id: documentId);
+      }).toList();
     } on Exception {
       rethrow;
     }
   }
 
   Future<void> subscribeToCourse(String userId, String courseId) async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(userId)
-        .update({
-      'subscribedCourses': FieldValue.arrayUnion([courseId]),
+    DocumentReference courseRef =
+        FirebaseFirestore.instance.collection('Courses').doc(courseId);
+
+    await FirebaseFirestore.instance.collection('users').doc(userId).update({
+      'subscribedCourses': FieldValue.arrayUnion([courseRef]),
     });
+  }
+
+  Future<void> deleteCourse(String courseId) async {
+    try {
+      DocumentReference courseRef =
+          FirebaseFirestore.instance.collection('Courses').doc(courseId);
+
+      QuerySnapshot teachersSnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .where('subscribedCourses', arrayContains: courseRef)
+          .get();
+
+      for (var teacherDoc in teachersSnapshot.docs) {
+        await teacherDoc.reference.update({
+          'subscribedCourses': FieldValue.arrayRemove([courseRef])
+        });
+      }
+
+      await courseRef.delete();
+      print('Курс и ссылки на него у учителей успешно удалены.');
+    } on Exception {
+      rethrow;
+    }
   }
 }

@@ -13,6 +13,7 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
     on<AddCourseEvent>(_onAddCourse);
     on<FetchCourseEvent>(_onFetchCourses);
     on<SubscribeToCourseEvent>(_onSubscribeToCourse);
+    on<DeleteCourseEvent>(_onDeleteCourse);
 
     add(FetchCourseEvent());
   }
@@ -42,10 +43,21 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
 
   FutureOr<void> _onSubscribeToCourse(
       SubscribeToCourseEvent event, Emitter<CourseState> emit) async {
-    emit(CourseLoading());
+    //emit(CourseLoading());
     try {
       await courseRepository.subscribeToCourse(event.userId, event.courseId);
-      emit(CourseLoaded([]));
+      add(FetchCourseEvent());
+      //emit(CourseLoaded([]));
+    } catch (e) {
+      emit(CourseError(e.toString()));
+    }
+  }
+
+  FutureOr<void> _onDeleteCourse(
+      DeleteCourseEvent event, Emitter<CourseState> emit) async {
+    try {
+      await courseRepository.deleteCourse(event.courseId);
+      add(FetchCourseEvent());
     } catch (e) {
       emit(CourseError(e.toString()));
     }

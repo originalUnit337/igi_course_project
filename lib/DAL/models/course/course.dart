@@ -3,7 +3,7 @@ import 'grammar_exercise.dart';
 import 'reading_exercise.dart';
 
 class Course {
-  final int courseId;
+  final String documentId;
   final String name;
   final String description;
   final String language;
@@ -12,7 +12,7 @@ class Course {
   final List<AuditionExercise> auditionExercises;
 
   Course({
-    required this.courseId,
+    required this.documentId,
     required this.name,
     required this.description,
     required this.language,
@@ -21,7 +21,7 @@ class Course {
     required this.auditionExercises,
   });
 
-  factory Course.fromJson(Map<String, dynamic> json) {
+  factory Course.fromJson(Map<String, dynamic> json, {String? id}) {
     var grammarExercisesFromJson = json['grammarExercises'] as List;
     var readingExercisesFromJson = json['readingExercises'] as List;
     var auditionExercisesFromJson = json['auditionExercises'] as List;
@@ -39,7 +39,7 @@ class Course {
         .toList();
 
     return Course(
-      courseId: json['courseId'],
+      documentId: id ?? '',
       name: json['name'],
       description: json['description'],
       language: json['language'],
@@ -51,7 +51,6 @@ class Course {
 
   Map<String, dynamic> toJson() {
     return {
-      'courseId': courseId,
       'name': name,
       'description': description,
       'language': language,

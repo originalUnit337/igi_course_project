@@ -67,6 +67,17 @@ class MyCoursesList extends StatelessWidget {
                   ),
                   title: Text(myCourses[index].name),
                   subtitle: Text(myCourses[index].description),
+                  onTap: () async {
+                    await Navigator.pushNamed(context, '/coursePage',
+                        arguments: {
+                          'course': myCourses[index],
+                          'userId': currentUser.uid
+                        });
+                    context.mounted
+                        ? BlocProvider.of<CourseBloc>(context)
+                            .add(FetchCourseEvent())
+                        : 0;
+                  },
                 ),
               );
             },
@@ -111,8 +122,8 @@ class AvailableCoursesList extends StatelessWidget {
                   ),
                   title: Text(availableCourses[index].name),
                   subtitle: Text(availableCourses[index].description),
-                  onTap: () async {
-                    await Navigator.pushNamed(context, '/previewCoursePage',
+                  onTap: () {
+                    Navigator.pushNamed(context, '/previewCoursePage',
                         arguments: availableCourses[index]);
                     context.mounted
                         ? BlocProvider.of<CourseBloc>(context)

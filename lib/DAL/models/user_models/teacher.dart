@@ -1,7 +1,8 @@
 import 'user.dart';
 
 class Teacher extends UserModel {
-  List<int> coursesId;
+  List<dynamic> createdCourses;
 
-  Teacher({required super.uid, required super.email, required this.coursesId});
+  Teacher(
+      {required super.uid, required super.email, required this.createdCourses});
 }

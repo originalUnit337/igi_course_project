@@ -11,6 +11,7 @@ import 'package:igi_course_project/bloc/authentication/authentication_bloc.dart'
 import 'package:igi_course_project/bloc/authentication/authentication_event.dart';
 import 'package:igi_course_project/bloc/authentication/authentication_state.dart';
 import 'package:igi_course_project/pages/roles/admin/admin_page.dart';
+import 'package:igi_course_project/pages/roles/admin/student_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../DAL/models/course/course.dart';
@@ -78,8 +79,9 @@ class HomePage extends StatelessWidget {
             //return Center(child: Text('ADMIN'));
           } else if (currentUser is Teacher) {
             return Center(child: Text('TEACHER'));
-          } else if (currentUser is Teacher) {
-            return Center(child: Text('STUDENT'));
+          } else if (currentUser is Student) {
+            //return Center(child: Text('STUDENT'));
+            return StudentPage(currentUser: currentUser);
           } else {
             switch (courseState) {
               case CourseLoading _:

@@ -18,6 +18,13 @@ class AppNavigator {
             course: course,
           ),
         );
+      case '/coursePage':
+        final Course course = settings.arguments as Course;
+        return MaterialPageRoute(
+          builder: (context) => PreviewCoursePage(
+            course: course,
+          ),
+        );
       case '/loginPage':
         return MaterialPageRoute(builder: (context) => LoginPage());
       case '/registrationPage':

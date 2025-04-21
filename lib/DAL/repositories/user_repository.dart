@@ -29,7 +29,7 @@ class UserRepository {
             return Teacher(
               uid: doc.id,
               email: doc['email'],
-              coursesId: coursesIdList,
+              createdCourses: coursesIdList,
             );
           case 'student':
             final data = doc.data() as Map<String, dynamic>;
@@ -42,7 +42,7 @@ class UserRepository {
             return Student(
               uid: doc.id,
               email: doc['email'],
-              coursesId: subcribedCourses,
+              subscribedCourses: subcribedCourses,
             );
           default:
             return null;

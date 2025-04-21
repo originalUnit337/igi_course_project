@@ -42,10 +42,24 @@ class AuthRepository {
           .createUserWithEmailAndPassword(email: email, password: password);
       User? user = userCredential.user;
       if (user != null) {
-        await _firestore.collection('users').doc(user.uid).set({
-          'email': email,
-          'role': role,
-        });
+        // await _firestore.collection('users').doc(user.uid).set({
+        //   'email': email,
+        //   'role': role,
+        // });
+        if (role == 'student') {
+          await _firestore.collection('users').doc(user.uid).set({
+            'email': email,
+            'role': role,
+            'subcribedCourses': [],
+          });
+        }
+        if (role == 'teacher') {
+          await _firestore.collection('users').doc(user.uid).set({
+            'email': email,
+            'role': role,
+            'createdCourses': [],
+          });
+        }
         //return await _getUserByRole(user.uid, role);
         return await signIn(email, password);
       }
@@ -63,11 +77,13 @@ class AuthRepository {
 
       switch (role) {
         case 'teacher':
-          // Здесь вы можете передать список курсов, если это необходимо
-          return Teacher(uid: uid, email: email, coursesId: []);
+          final createdCourses = doc['createdCourses'];
+          return Teacher(
+              uid: uid, email: email, createdCourses: createdCourses);
         case 'student':
-          // Здесь вы можете передать список курсов, если это необходимо
-          return Student(uid: uid, email: email, coursesId: []);
+          final subscribedCourses = doc['subscribedCourses'];
+          return Student(
+              uid: uid, email: email, subscribedCourses: subscribedCourses);
         case 'admin':
           return Admin(uid: uid, email: email);
         default:

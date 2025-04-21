@@ -1,7 +1,10 @@
 import 'user.dart';
 
 class Student extends UserModel {
-  List<int> coursesId;
+  List<dynamic> subscribedCourses;
 
-  Student({required super.uid, required super.email, required this.coursesId});
+  Student(
+      {required super.uid,
+      required super.email,
+      required this.subscribedCourses});
 }

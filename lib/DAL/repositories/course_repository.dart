@@ -42,12 +42,24 @@ class CourseRepository {
 
       QuerySnapshot teachersSnapshot = await FirebaseFirestore.instance
           .collection('users')
+          //.where('role', isEqualTo: 'teacher')
           .where('subscribedCourses', arrayContains: courseRef)
           .get();
 
       for (var teacherDoc in teachersSnapshot.docs) {
         await teacherDoc.reference.update({
           'subscribedCourses': FieldValue.arrayRemove([courseRef])
+        });
+      }
+
+      QuerySnapshot creatorsSnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .where('createdCourses', arrayContains: courseRef)
+          .get();
+
+      for (var creatorDoc in creatorsSnapshot.docs) {
+        await creatorDoc.reference.update({
+          'createdCourses': FieldValue.arrayRemove([courseRef])
         });
       }
 

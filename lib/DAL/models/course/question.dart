@@ -1,7 +1,7 @@
 class Question {
-  final String task;
-  final List<String> options;
-  final String answer;
+  String task;
+  List<String> options;
+  String answer;
 
   Question({
     required this.task,

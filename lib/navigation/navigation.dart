@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:igi_course_project/pages/course/course_page.dart';
+import 'package:igi_course_project/pages/roles/teacher/course_details.dart';
 
 import '../DAL/models/course/course.dart';
 import '../pages/authorization/login_page.dart';
@@ -27,6 +28,16 @@ class AppNavigator {
         return MaterialPageRoute(
           builder: (context) => CoursePage(
             userId: userId,
+            course: course,
+          ),
+        );
+      case '/courseDetails':
+        final Map<String, dynamic> args =
+            settings.arguments as Map<String, dynamic>;
+        //final String userId = args['userId'];
+        final Course course = args['course'];
+        return MaterialPageRoute(
+          builder: (context) => CourseDetails(
             course: course,
           ),
         );

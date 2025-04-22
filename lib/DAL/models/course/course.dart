@@ -4,12 +4,12 @@ import 'reading_exercise.dart';
 
 class Course {
   final String documentId;
-  final String name;
-  final String description;
-  final String language;
-  final List<GrammarExercise> grammarExercises;
-  final List<ReadingExercise> readingExercises;
-  final List<AuditionExercise> auditionExercises;
+  String name;
+  String description;
+  String language;
+  List<GrammarExercise> grammarExercises;
+  List<ReadingExercise> readingExercises;
+  List<AuditionExercise> auditionExercises;
 
   Course({
     required this.documentId,

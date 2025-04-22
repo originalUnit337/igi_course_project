@@ -1,8 +1,8 @@
 import 'question.dart';
 
 class GrammarExercise {
-  final String type;
-  final List<Question> questions;
+  String type;
+  List<Question> questions;
 
   GrammarExercise({
     required this.type,

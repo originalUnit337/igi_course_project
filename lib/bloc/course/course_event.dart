@@ -19,7 +19,7 @@ class AddCourseEvent extends CourseEvent {
 class FetchCourseEvent extends CourseEvent {}
 
 class SubscribeToCourseEvent extends CourseEvent {
-  final String userId; 
+  final String userId;
   final String courseId;
 
   SubscribeToCourseEvent(this.userId, this.courseId);
@@ -29,4 +29,10 @@ class DeleteCourseEvent extends CourseEvent {
   final String courseId;
 
   DeleteCourseEvent(this.courseId);
+}
+
+class UpdateCourseEvent extends CourseEvent {
+  final Course course;
+
+  UpdateCourseEvent(this.course);
 }

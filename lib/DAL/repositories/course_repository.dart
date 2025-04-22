@@ -69,4 +69,14 @@ class CourseRepository {
       rethrow;
     }
   }
+
+  Future<void> updateCourse(Course course) async {
+    CollectionReference courses =
+        FirebaseFirestore.instance.collection('Courses');
+    try {
+      await courses.doc(course.documentId).update(course.toJson());
+    } on Exception {
+      rethrow;
+    }
+  }
 }

@@ -1,8 +1,8 @@
 import 'question.dart';
 
 class ReadingExercise {
-  final String type;
-  final List<Question> questions;
+  String type;
+  List<Question> questions;
 
   ReadingExercise({
     required this.type,

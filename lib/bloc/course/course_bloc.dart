@@ -14,6 +14,7 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
     on<FetchCourseEvent>(_onFetchCourses);
     on<SubscribeToCourseEvent>(_onSubscribeToCourse);
     on<DeleteCourseEvent>(_onDeleteCourse);
+    on<UpdateCourseEvent>(_onUpdateCourse);
 
     add(FetchCourseEvent());
   }
@@ -57,6 +58,17 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
       DeleteCourseEvent event, Emitter<CourseState> emit) async {
     try {
       await courseRepository.deleteCourse(event.courseId);
+      add(FetchCourseEvent());
+    } catch (e) {
+      emit(CourseError(e.toString()));
+    }
+  }
+
+  FutureOr<void> _onUpdateCourse(
+      UpdateCourseEvent event, Emitter<CourseState> emit) async {
+    try {
+      emit(CourseLoading());
+      await courseRepository.updateCourse(event.course);
       add(FetchCourseEvent());
     } catch (e) {
       emit(CourseError(e.toString()));

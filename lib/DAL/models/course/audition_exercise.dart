@@ -1,8 +1,8 @@
 import 'question.dart';
 
 class AuditionExercise {
-  final String type;
-  final List<Question> questions;
+  String type;
+  List<Question> questions;
 
   AuditionExercise({
     required this.type,

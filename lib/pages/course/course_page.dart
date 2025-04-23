@@ -9,7 +9,7 @@ import 'package:igi_course_project/bloc/user_result/user_result_state.dart';
 
 class CoursePage extends StatefulWidget {
   final Course course;
-  final String userId; // Добавьте идентификатор пользователя
+  final String userId; 
   const CoursePage({super.key, required this.course, required this.userId});
 
   @override

@@ -50,7 +50,7 @@ class AuthRepository {
           await _firestore.collection('users').doc(user.uid).set({
             'email': email,
             'role': role,
-            'subcribedCourses': [],
+            'subscribedCourses': [],
           });
         }
         if (role == 'teacher') {

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:igi_course_project/DAL/models/user_models/teacher.dart';
 
 import '../models/course/course.dart';
 
@@ -7,9 +8,15 @@ class CourseRepository {
 
   CourseRepository(this.firestore);
 
-  Future<void> addCourse(Course course) async {
+  Future<void> addCourse(Course course, Teacher currentTeacher) async {
     CollectionReference courses = firestore.collection('Courses');
-    await courses.add(course.toJson());
+    DocumentReference newCourseRef = await courses.add(course.toJson());
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(currentTeacher.uid)
+        .update({
+      'createdCourses': FieldValue.arrayUnion([newCourseRef])
+    });
   }
 
   Future<List<Course>> fetchCourses() async {

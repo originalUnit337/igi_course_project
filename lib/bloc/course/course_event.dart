@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:igi_course_project/DAL/models/user_models/teacher.dart';
 
 import '../../DAL/models/course/course.dart';
 
@@ -9,8 +10,9 @@ abstract class CourseEvent extends Equatable {
 
 class AddCourseEvent extends CourseEvent {
   final Course course;
+  final Teacher currentTeacher;
 
-  AddCourseEvent(this.course);
+  AddCourseEvent(this.course, this.currentTeacher);
 
   @override
   List<Object> get props => [course];

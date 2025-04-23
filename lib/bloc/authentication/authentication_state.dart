@@ -23,3 +23,11 @@ class AuthSignedUp extends AuthState {
 
   AuthSignedUp({required this.userModel});
 }
+
+class RefreshInProgress extends AuthState {}
+
+class Refreshed extends AuthState {
+  final UserModel? userNodel;
+
+  Refreshed({required this.userNodel});
+}

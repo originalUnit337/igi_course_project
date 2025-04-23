@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,6 +14,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthSignInEvent>(_authSignInEvent);
     on<AuthSignOutEvent>(_authSignOut);
     on<AuthSignUpEvent>(_authSignUpEvent);
+    on<RefreshCurrentUserInfoEvent>(_refreshCurrentUserInfo);
   }
 
   Future<void> _authSignInEvent(
@@ -44,6 +47,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       // await prefs.setString('userId', user!.uid);
       // await prefs.setString('role', 'user');
       emit(AuthSignedIn(userModel: user!));
+    } catch (e) {
+      emit(AuthError(message: e.toString()));
+    }
+  }
+
+  FutureOr<void> _refreshCurrentUserInfo(
+      RefreshCurrentUserInfoEvent event, Emitter<AuthState> emit) async {
+    try {
+      emit(RefreshInProgress());
+      final user =
+          await _authRepository.refreshCurrentUserInfo(event.currentUser);
+      emit(Refreshed(userNodel: user));
     } catch (e) {
       emit(AuthError(message: e.toString()));
     }

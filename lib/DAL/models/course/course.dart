@@ -21,6 +21,15 @@ class Course {
     required this.auditionExercises,
   });
 
+  Course.empty()
+      : documentId = '',
+        name = '',
+        description = '',
+        language = '',
+        grammarExercises = [],
+        readingExercises = [],
+        auditionExercises = [];
+
   factory Course.fromJson(Map<String, dynamic> json, {String? id}) {
     var grammarExercisesFromJson = json['grammarExercises'] as List;
     var readingExercisesFromJson = json['readingExercises'] as List;

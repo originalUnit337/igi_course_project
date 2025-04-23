@@ -11,7 +11,7 @@ class SaveUserResultEvent extends UserResultEvent {
 
 class FetchUserResultEvent extends UserResultEvent {
   final String courseId;
-  final String userId;
+  //final String userId;
 
-  FetchUserResultEvent(this.courseId, this.userId);
+  FetchUserResultEvent(this.courseId);
 }

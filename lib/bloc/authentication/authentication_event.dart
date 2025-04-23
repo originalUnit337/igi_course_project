@@ -1,3 +1,5 @@
+import 'package:igi_course_project/DAL/models/user_models/user.dart';
+
 abstract class AuthEvent {}
 
 class AuthSignInEvent extends AuthEvent {
@@ -15,4 +17,9 @@ class AuthSignUpEvent extends AuthEvent {
   final String role;
 
   AuthSignUpEvent(this.email, this.password, this.role);
+}
+
+class RefreshCurrentUserInfoEvent extends AuthEvent {
+  final UserModel currentUser;
+  RefreshCurrentUserInfoEvent(this.currentUser);
 }

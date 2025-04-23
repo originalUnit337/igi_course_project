@@ -7,6 +7,9 @@ import 'package:igi_course_project/DAL/models/course/question.dart';
 import 'package:igi_course_project/DAL/models/course/reading_exercise.dart';
 import 'package:igi_course_project/bloc/course/course_bloc.dart';
 import 'package:igi_course_project/bloc/course/course_event.dart';
+import 'package:igi_course_project/bloc/user_result/user_result_bloc.dart';
+import 'package:igi_course_project/bloc/user_result/user_result_event.dart';
+import 'package:igi_course_project/bloc/user_result/user_result_state.dart';
 
 class CourseDetails extends StatelessWidget {
   final Course course;
@@ -30,7 +33,7 @@ class CourseDetails extends StatelessWidget {
         body: TabBarView(
           children: [
             AssignmentsList(course: course),
-            //StudentResultsList(course: course),
+            StudentResultsList(course: course),
           ],
         ),
       ),
@@ -452,3 +455,64 @@ class _QuestionWidgetState extends State<QuestionWidget> {
 //     );
 //   }
 // }
+
+class StudentResultsList extends StatelessWidget {
+  final Course course;
+  const StudentResultsList({super.key, required this.course});
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<UserResultBloc, UserResultState>(
+        builder: (context, state) {
+      switch (state) {
+        case UserResultError _:
+          return Center(
+            child: Text(state.message),
+          );
+        case InProgress _:
+          return CircularProgressIndicator();
+        case UserResultLoaded _:
+          return ListView.builder(
+            itemCount: state.userResult.length,
+            itemBuilder: (context, index) {
+              return Card(
+                elevation: 4,
+                margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                child: ListTile(
+                  leading: SizedBox(
+                    width: 100,
+                    height: 70,
+                    child: Placeholder(),
+                  ),
+                  title: Text(state.userResult[index]!.userId),
+                  subtitle: Text(state.userResult[index]!.score.toString()),
+                ),
+              );
+            },
+          );
+        default:
+          BlocProvider.of<UserResultBloc>(context)
+              .add(FetchUserResultEvent(course.documentId));
+          return Center(
+            child: Text('nothing to show'),
+          );
+      }
+      // return ListView.builder(
+      //   itemCount: state.users.length,
+      //   itemBuilder: (context, index) {
+      //     return Card(
+      //       elevation: 4,
+      //       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      //       child: ListTile(
+      //         leading: SizedBox(
+      //           width: 100,
+      //           height: 70,
+      //           child: Placeholder(),
+      //         ),
+      //         title: Text(state.users[index]!.email),
+      //       ),
+      //     );
+      //   },
+      // );
+    });
+  }
+}

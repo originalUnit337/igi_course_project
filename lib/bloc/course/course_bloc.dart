@@ -23,7 +23,7 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
       AddCourseEvent event, Emitter<CourseState> emit) async {
     emit(CourseLoading());
     try {
-      await courseRepository.addCourse(event.course);
+      await courseRepository.addCourse(event.course, event.currentTeacher);
       final courses = await courseRepository.fetchCourses();
       emit(CourseLoaded(courses));
     } catch (e) {

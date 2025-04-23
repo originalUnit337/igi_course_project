@@ -87,9 +87,23 @@ class AuthRepository {
         case 'admin':
           return Admin(uid: uid, email: email);
         default:
-          return null; // Если роль не распознана
+          return null;
       }
     }
-    return null; // Если документ не существует
+    return null;
+  }
+
+  Future<UserModel?> refreshCurrentUserInfo(UserModel currentUser) async {
+    try {
+      DocumentSnapshot doc =
+          await _firestore.collection('users').doc(currentUser.uid).get();
+      if (doc.exists) {
+        String role = doc['role'];
+        return await _getUserByRole(currentUser.uid, role);
+      }
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+    return null;
   }
 }

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:igi_course_project/DAL/models/course/audition_exercise.dart';
 import 'package:igi_course_project/DAL/models/course/reading_exercise.dart';
 import 'package:igi_course_project/DAL/models/user_models/admin.dart';
@@ -79,7 +80,9 @@ class HomePage extends StatelessWidget {
             return AdminPage();
             //return Center(child: Text('ADMIN'));
           } else if (currentUser is Teacher) {
-            return TeacherPage(currentUser: currentUser);
+            return BlocProvider(
+                create: (context) => GetIt.I<AuthBloc>(),
+                child: TeacherPage(currentUser: currentUser));
             //return Center(child: Text('TEACHER'));
           } else if (currentUser is Student) {
             //return Center(child: Text('STUDENT'));

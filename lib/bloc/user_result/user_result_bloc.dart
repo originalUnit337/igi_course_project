@@ -34,8 +34,8 @@ class UserResultBloc extends Bloc<UserResultEvent, UserResultState> {
     try {
       // UserResult? userResult = await userResultRepository.getUserResult(
       //     event.courseId, event.userId);
-      List<UserResult?> userResult = await userResultRepository.getUserResult(
-          event.courseId, event.userId);
+      List<UserResult?> userResult =
+          await userResultRepository.getUserResult(event.courseId);
       if (userResult != null) {
         emit(UserResultLoaded(userResult));
       } else {

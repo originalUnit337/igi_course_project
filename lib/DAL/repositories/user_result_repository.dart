@@ -16,7 +16,7 @@ class UserResultRepository {
             .toJson()); // Используем add для создания нового документа
   }
 
-  Future<List<UserResult>> getUserResult(String courseId, String userId) async {
+  Future<List<UserResult>> getUserResult(String courseId) async {
     // DocumentSnapshot doc = await _firestore
     //     .collection('courses')
     //     .doc(courseId)
@@ -32,7 +32,7 @@ class UserResultRepository {
         .collection('Courses')
         .doc(courseId)
         .collection('userResults')
-        .where('userId', isEqualTo: userId) // Фильтруем результаты по userId
+        //.where('userId', isEqualTo: userId) // Фильтруем результаты по userId
         .get();
 
     return querySnapshot.docs.map((doc) {

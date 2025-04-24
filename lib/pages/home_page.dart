@@ -14,6 +14,7 @@ import 'package:igi_course_project/bloc/authentication/authentication_state.dart
 import 'package:igi_course_project/pages/roles/admin/admin_page.dart';
 import 'package:igi_course_project/pages/roles/student/student_page.dart';
 import 'package:igi_course_project/pages/roles/teacher/teacher_Page.dart';
+import 'package:igi_course_project/pages/welcome_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../DAL/models/course/course.dart';
@@ -31,7 +32,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Polyglot Path'),
+        title: Text('Учебный портал по изучению иностранных языков'),
         centerTitle: true,
         actions: [
           BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
@@ -51,7 +52,7 @@ class HomePage extends StatelessWidget {
                     onPressed: () {
                       Navigator.pushNamed(context, '/loginPage');
                     },
-                    label: Text('Login'),
+                    label: Text('Войти'),
                     icon: Icon(Icons.login),
                   ),
                   SizedBox(width: 20),
@@ -59,7 +60,7 @@ class HomePage extends StatelessWidget {
                     onPressed: () {
                       Navigator.pushNamed(context, '/registrationPage');
                     },
-                    label: Text('Register'),
+                    label: Text('Зарегистрироваться'),
                     icon: Icon(Icons.person_add),
                   ),
                 ],
@@ -88,37 +89,38 @@ class HomePage extends StatelessWidget {
             //return Center(child: Text('STUDENT'));
             return StudentPage(currentUser: currentUser);
           } else {
-            switch (courseState) {
-              case CourseLoading _:
-                return Center(child: CircularProgressIndicator());
-              case CourseLoaded _:
-                return ListView.builder(
-                  itemCount: courseState.courses.length,
-                  itemBuilder: (context, index) {
-                    return Card(
-                      elevation: 4,
-                      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                      child: ListTile(
-                        leading: SizedBox(
-                          width: 100,
-                          height: 70,
-                          child: Placeholder(),
-                        ),
-                        title: Text(courseState.courses[index].name),
-                        subtitle: Text(courseState.courses[index].description),
-                        onTap: () {
-                          Navigator.pushNamed(context, '/previewCoursePage',
-                              arguments: courseState.courses[index]);
-                        },
-                      ),
-                    );
-                  },
-                );
-              case CourseError _:
-                return Center(child: Text('Error: ${courseState.message}'));
-              default:
-                return Center(child: Text('No courses available.'));
-            }
+            return YouTubePlayerScreen();
+            // switch (courseState) {
+            //   case CourseLoading _:
+            //     return Center(child: CircularProgressIndicator());
+            //   case CourseLoaded _:
+            //     return ListView.builder(
+            //       itemCount: courseState.courses.length,
+            //       itemBuilder: (context, index) {
+            //         return Card(
+            //           elevation: 4,
+            //           margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            //           child: ListTile(
+            //             // leading: SizedBox(
+            //             //   width: 100,
+            //             //   height: 70,
+            //             //   child: Placeholder(),
+            //             // ),
+            //             title: Text(courseState.courses[index].name),
+            //             subtitle: Text(courseState.courses[index].description),
+            //             onTap: () {
+            //               Navigator.pushNamed(context, '/previewCoursePage',
+            //                   arguments: courseState.courses[index]);
+            //             },
+            //           ),
+            //         );
+            //       },
+            //     );
+            //   case CourseError _:
+            //     return Center(child: Text('Error: ${courseState.message}'));
+            //   default:
+            //     return Center(child: Text('No courses available.'));
+            // }
           }
         });
       }),

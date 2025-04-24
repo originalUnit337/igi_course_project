@@ -19,7 +19,7 @@ class AppTheme {
           fontWeight: FontWeight.bold,
         ),
         labelLarge: TextStyle(
-          fontSize: 30,
+          fontSize: 26,
           fontWeight: FontWeight.bold,
         ),
       ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:igi_course_project/DAL/models/course/course.dart';
-import 'package:igi_course_project/DAL/models/course/question.dart';
+import 'package:igi_course_project/DAL/models/lesson/question.dart';
 import 'package:igi_course_project/DAL/models/user_result/user_result.dart';
 import 'package:igi_course_project/bloc/user_result/user_result_bloc.dart';
 import 'package:igi_course_project/bloc/user_result/user_result_event.dart';
@@ -9,7 +9,7 @@ import 'package:igi_course_project/bloc/user_result/user_result_state.dart';
 
 class CoursePage extends StatefulWidget {
   final Course course;
-  final String userId; 
+  final String userId;
   const CoursePage({super.key, required this.course, required this.userId});
 
   @override

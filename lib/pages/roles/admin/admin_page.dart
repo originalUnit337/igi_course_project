@@ -96,12 +96,13 @@ class CourseList extends StatelessWidget {
                     height: 70,
                     child: Placeholder(),
                   ),
-                  title: Text(state.courses[index].name),
+                  title: Text(state.courses[index].title),
                   subtitle: Text(state.courses[index].description),
                   trailing: IconButton(
                     icon: Icon(Icons.delete),
                     onPressed: () {
-                      BlocProvider.of<CourseBloc>(context).add(DeleteCourseEvent(state.courses[index].documentId));
+                      BlocProvider.of<CourseBloc>(context).add(
+                          DeleteCourseEvent(state.courses[index].documentId));
                     },
                   ),
                 ),

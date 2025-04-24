@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../DAL/models/course/course.dart';
+import '../../DAL/models/lesson/lesson.dart';
 
 abstract class CourseState extends Equatable {
   @override
@@ -12,8 +12,8 @@ class CourseInitial extends CourseState {}
 class CourseLoading extends CourseState {}
 
 class CourseLoaded extends CourseState {
-  final List<Course> courses;
-  
+  final List<Lesson> courses;
+
   CourseLoaded(this.courses);
 
   @override

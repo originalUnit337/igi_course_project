@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:igi_course_project/DAL/models/user_models/teacher.dart';
 
-import '../models/course/course.dart';
+import '../models/lesson/lesson.dart';
 
 class CourseRepository {
   final FirebaseFirestore firestore;
 
   CourseRepository(this.firestore);
 
-  Future<void> addCourse(Course course, Teacher currentTeacher) async {
+  Future<void> addCourse(Lesson course, Teacher currentTeacher) async {
     CollectionReference courses = firestore.collection('Courses');
     DocumentReference newCourseRef = await courses.add(course.toJson());
     await FirebaseFirestore.instance
@@ -19,13 +19,13 @@ class CourseRepository {
     });
   }
 
-  Future<List<Course>> fetchCourses() async {
+  Future<List<Lesson>> fetchCourses() async {
     try {
       CollectionReference courses = firestore.collection('Courses');
       QuerySnapshot snapshot = await courses.get();
       return snapshot.docs.map((doc) {
         String documentId = doc.id;
-        return Course.fromJson(doc.data() as Map<String, dynamic>,
+        return Lesson.fromJson(doc.data() as Map<String, dynamic>,
             id: documentId);
       }).toList();
     } on Exception {
@@ -77,7 +77,7 @@ class CourseRepository {
     }
   }
 
-  Future<void> updateCourse(Course course) async {
+  Future<void> updateCourse(Lesson course) async {
     CollectionReference courses =
         FirebaseFirestore.instance.collection('Courses');
     try {

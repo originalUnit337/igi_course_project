@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:igi_course_project/DAL/models/course/audition_exercise.dart';
-import 'package:igi_course_project/DAL/models/course/reading_exercise.dart';
+import 'package:igi_course_project/DAL/models/lesson/audition_exercise.dart';
+import 'package:igi_course_project/DAL/models/lesson/reading_exercise.dart';
 import 'package:igi_course_project/DAL/models/user_models/admin.dart';
 import 'package:igi_course_project/DAL/models/user_models/student.dart';
 import 'package:igi_course_project/DAL/models/user_models/teacher.dart';
@@ -17,9 +17,9 @@ import 'package:igi_course_project/pages/roles/teacher/teacher_Page.dart';
 import 'package:igi_course_project/pages/welcome_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../DAL/models/course/course.dart';
-import '../DAL/models/course/grammar_exercise.dart';
-import '../DAL/models/course/question.dart';
+import '../DAL/models/lesson/lesson.dart';
+import '../DAL/models/lesson/grammar_exercise.dart';
+import '../DAL/models/lesson/question.dart';
 import '../bloc/course/course_bloc.dart';
 import '../bloc/course/course_event.dart';
 import '../bloc/course/course_state.dart';
@@ -135,7 +135,7 @@ class HomePage extends StatelessWidget {
   }
 }
 
-Future<void> addCourse(Course course) async {
+Future<void> addCourse(Lesson course) async {
   try {
     CollectionReference courses =
         FirebaseFirestore.instance.collection('Courses');
@@ -211,9 +211,9 @@ addCourseOGO() async {
     questions: auditionQuestions,
   );
 
-  Course course = Course(
+  Lesson course = Lesson(
     documentId: "1", // Пример ID документа
-    name: "English Language Course",
+    title: "English Language Course",
     description: "A comprehensive course for learning English.",
     language: "English",
     grammarExercises: [grammarExercise],
@@ -272,9 +272,9 @@ addCourseOGO() async {
     questions: auditionQuestions,
   );
 
-  course = Course(
+  course = Lesson(
     documentId: "2",
-    name: "English Language Course 1",
+    title: "English Language Course 1",
     description: "A comprehensive course for learning English.",
     language: "English",
     grammarExercises: [grammarExercise],
@@ -343,9 +343,9 @@ addCourseOGO() async {
     questions: auditionQuestions,
   );
 
-  course = Course(
+  course = Lesson(
     documentId: "3",
-    name: "English Language Course 2",
+    title: "English Language Course 2",
     description: "A comprehensive course for learning English.",
     language: "English",
     grammarExercises: [grammarExercise],
@@ -397,9 +397,9 @@ addCourseOGO() async {
     questions: auditionQuestions,
   );
 
-  course = Course(
+  course = Lesson(
     documentId: "4",
-    name: "English Language Course 3",
+    title: "English Language Course 3",
     description: "A comprehensive course for learning English.",
     language: "English",
     grammarExercises: [grammarExercise],
@@ -458,9 +458,9 @@ addCourseOGO() async {
     questions: auditionQuestions,
   );
 
-  course = Course(
+  course = Lesson(
     documentId: "5",
-    name: "English Language Course 4",
+    title: "English Language Course 4",
     description: "A comprehensive course for learning English.",
     language: "English",
     grammarExercises: [grammarExercise],
@@ -524,9 +524,9 @@ addCourseOGO() async {
     questions: auditionQuestions,
   );
 
-  course = Course(
+  course = Lesson(
     documentId: "6",
-    name: "English Language Course 5",
+    title: "English Language Course 5",
     description: "A comprehensive course for learning English.",
     language: "English",
     grammarExercises: [grammarExercise],

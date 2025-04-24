@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:igi_course_project/DAL/models/course/audition_exercise.dart';
+import 'package:igi_course_project/DAL/models/lesson/audition_exercise.dart';
 import 'package:igi_course_project/DAL/models/course/course.dart';
-import 'package:igi_course_project/DAL/models/course/grammar_exercise.dart';
-import 'package:igi_course_project/DAL/models/course/question.dart';
-import 'package:igi_course_project/DAL/models/course/reading_exercise.dart';
+import 'package:igi_course_project/DAL/models/lesson/grammar_exercise.dart';
+import 'package:igi_course_project/DAL/models/lesson/question.dart';
+import 'package:igi_course_project/DAL/models/lesson/reading_exercise.dart';
 import 'package:igi_course_project/bloc/course/course_bloc.dart';
 import 'package:igi_course_project/bloc/course/course_event.dart';
 import 'package:igi_course_project/bloc/user_result/user_result_bloc.dart';

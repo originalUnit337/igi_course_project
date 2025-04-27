@@ -190,7 +190,7 @@ class _CoursePageState extends State<CoursePage> {
                   // Создаем объект UserResult
                   final userResult = UserResult(
                     userId: widget.userId,
-                    answers: userAnswers.values.toList(),
+                    testAnswers: userAnswers.values.toList(),
                     correctAnswers: correctAnswers,
                     score: score,
                     testDate: DateTime.now(),

@@ -1,16 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:igi_course_project/DAL/models/course/course.dart';
+import 'package:igi_course_project/DAL/models/lesson/lesson.dart';
 import 'package:igi_course_project/DAL/models/user_models/teacher.dart';
-
-import '../models/lesson/lesson.dart';
 
 class CourseRepository {
   final FirebaseFirestore firestore;
 
   CourseRepository(this.firestore);
 
-  Future<void> addCourse(Lesson course, Teacher currentTeacher) async {
+  Future<void> addCourse(Course course, Teacher currentTeacher) async {
     CollectionReference courses = firestore.collection('Courses');
     DocumentReference newCourseRef = await courses.add(course.toJson());
+    CollectionReference lessonsRef = newCourseRef.collection('Lessons');
+    for (var lesson in course.lessons) {
+      await lessonsRef.add(lesson.toJson());
+    }
     await FirebaseFirestore.instance
         .collection('users')
         .doc(currentTeacher.uid)
@@ -19,14 +23,27 @@ class CourseRepository {
     });
   }
 
-  Future<List<Lesson>> fetchCourses() async {
+  Future<List<Course>> fetchCourses() async {
     try {
       CollectionReference courses = firestore.collection('Courses');
       QuerySnapshot snapshot = await courses.get();
       return snapshot.docs.map((doc) {
         String documentId = doc.id;
-        return Lesson.fromJson(doc.data() as Map<String, dynamic>,
+        return Course.fromJson(doc.data() as Map<String, dynamic>,
             id: documentId);
+      }).toList();
+    } on Exception {
+      rethrow;
+    }
+  }
+
+  Future<List<Lesson>> fetchLessons(String courseId) async {
+    try {
+      CollectionReference lessonsRef = firestore.collection('Courses').doc(courseId).collection('Lessons');
+      QuerySnapshot snapshot = await lessonsRef.get();
+      return snapshot.docs.map((doc) {
+        String documentId = doc.id;
+        return Lesson.fromJson(doc.data() as Map<String, dynamic>, id: documentId);
       }).toList();
     } on Exception {
       rethrow;
@@ -69,7 +86,7 @@ class CourseRepository {
           'createdCourses': FieldValue.arrayRemove([courseRef])
         });
       }
-
+      await _deleteLessons(courseRef);
       await courseRef.delete();
       print('Курс и ссылки на него у учителей успешно удалены.');
     } on Exception {
@@ -77,7 +94,16 @@ class CourseRepository {
     }
   }
 
-  Future<void> updateCourse(Lesson course) async {
+  Future<void> _deleteLessons(DocumentReference courseRef) async {
+    CollectionReference lessonsRef = courseRef.collection('Lessons');
+    QuerySnapshot lessonsSnapshot = await lessonsRef.get();
+
+    for (var lessonDoc in lessonsSnapshot.docs) {
+      await lessonDoc.reference.delete();
+    }
+  }
+
+  Future<void> updateCourse(Course course) async {
     CollectionReference courses =
         FirebaseFirestore.instance.collection('Courses');
     try {

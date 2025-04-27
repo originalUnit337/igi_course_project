@@ -5,6 +5,7 @@ class Course {
   String title; // Название курса
   String language; // Язык курса
   String description; // Описание курса
+  int popularity;
   List<Lesson> lessons; // Список уроков
 
   Course({
@@ -12,6 +13,7 @@ class Course {
     required this.title,
     required this.language,
     required this.description,
+    this.popularity = 0,
     required this.lessons,
   });
 
@@ -20,6 +22,7 @@ class Course {
         title = '',
         language = '',
         description = '',
+        popularity = 0,
         lessons = [];
 
   factory Course.fromJson(Map<String, dynamic> json, {String? id}) {
@@ -32,6 +35,7 @@ class Course {
       title: json['title'],
       language: json['language'],
       description: json['description'],
+      popularity: json['popularity'],
       lessons: lessonsList,
     );
   }
@@ -41,6 +45,7 @@ class Course {
       'title': title,
       'language': language,
       'description': description,
+      'popularity': popularity,
       'lessons': lessons.map((lesson) => lesson.toJson()).toList(),
     };
   }

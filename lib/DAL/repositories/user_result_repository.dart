@@ -5,18 +5,24 @@ import 'package:igi_course_project/DAL/models/user_result/user_result.dart';
 class UserResultRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<void> saveUserResult(String courseId, UserResult userResult) async {
+  Future<void> saveUserResult(
+      String courseId, String lessonId, UserResult userResult) async {
     await _firestore
         .collection('Courses')
         .doc(courseId)
+        .collection('Lessons')
+        .doc(lessonId)
         .collection('userResults')
-        //.doc(userResult.userId)
-        //.set(userResult.toJson());
-        .add(userResult
-            .toJson()); // Используем add для создания нового документа
+        .doc(userResult.userId)
+        .set(userResult.toJson());
+    //.doc(userResult.userId)
+    //.set(userResult.toJson());
+    // .add(userResult
+    //     .toJson()); // Используем add для создания нового документа
   }
 
-  Future<List<UserResult>> getUserResult(String courseId) async {
+  Future<List<UserResult>> getUserResults(
+      String courseId, String lessonId) async {
     // DocumentSnapshot doc = await _firestore
     //     .collection('courses')
     //     .doc(courseId)
@@ -31,12 +37,31 @@ class UserResultRepository {
     QuerySnapshot querySnapshot = await _firestore
         .collection('Courses')
         .doc(courseId)
+        .collection('Lessons')
+        .doc(lessonId)
         .collection('userResults')
-        //.where('userId', isEqualTo: userId) // Фильтруем результаты по userId
         .get();
 
     return querySnapshot.docs.map((doc) {
       return UserResult.fromJson(doc.data() as Map<String, dynamic>);
     }).toList();
+  }
+
+  Future<UserResult?> getUserResult(
+      String courseId, String lessonId, String userId) async {
+    // Получаем результаты для конкретного пользователя по его userId
+    DocumentSnapshot doc = await _firestore
+        .collection('Courses')
+        .doc(courseId)
+        .collection('Lessons')
+        .doc(lessonId)
+        .collection('userResults')
+        .doc(userId) // Получаем результаты для конкретного пользователя
+        .get();
+
+    if (doc.exists) {
+      return UserResult.fromJson(doc.data() as Map<String, dynamic>);
+    }
+    return null; // Если документа нет, возвращаем null
   }
 }

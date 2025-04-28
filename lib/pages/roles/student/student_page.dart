@@ -114,11 +114,8 @@ class AvailableCoursesList extends StatelessWidget {
                 elevation: 4,
                 margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: ListTile(
-                  leading: SizedBox(
-                    width: 100,
-                    height: 70,
-                    child: Placeholder(),
-                  ),
+                  leading:
+                      Image.asset('course_img_${Random().nextInt(10) + 1}.png'),
                   title: Text(availableCourses[index].title),
                   subtitle: Text(availableCourses[index].description),
                   onTap: () {

@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:igi_course_project/DAL/models/course/course.dart';
@@ -7,6 +8,8 @@ import 'package:igi_course_project/DAL/models/user_result/user_result.dart';
 import 'package:igi_course_project/bloc/user_result/user_result_bloc.dart';
 import 'package:igi_course_project/bloc/user_result/user_result_event.dart';
 import 'package:igi_course_project/bloc/user_result/user_result_state.dart';
+import 'package:youtube_player_iframe/youtube_player_iframe.dart'
+    hide PlayerState;
 
 class LessonPage extends StatefulWidget {
   final Lesson lesson;
@@ -26,6 +29,71 @@ class _LessonPageState extends State<LessonPage> {
   final Map<String, String?> userAnswers = {};
   final Map<String, String?> writtenExerciseAnswers =
       {}; // Для письменных упражнений
+  late List<YoutubePlayerController> _youtubePlayerControllers;
+  late AudioPlayer _audioPlayer;
+  PlayerState? _playerState;
+  Duration? _duration;
+  Duration? _position;
+  double _volume = 1.0; // Начальная громкость
+
+  @override
+  void initState() {
+    super.initState();
+    _audioPlayer = AudioPlayer();
+    _audioPlayer.setReleaseMode(ReleaseMode.stop);
+    // Инициализация контроллера YouTube
+    if (widget.lesson.theoryUrls.isNotEmpty) {
+      _youtubePlayerControllers = widget.lesson.theoryUrls.map((url) {
+        final videoId = YoutubePlayerController.convertUrlToId(url);
+        return YoutubePlayerController.fromVideoId(
+          videoId: videoId!,
+          params: const YoutubePlayerParams(
+            showControls: true,
+            showFullscreenButton: true,
+            mute: false,
+          ),
+        );
+      }).toList();
+    }
+
+    _initAudioPlayerStreams();
+  }
+
+  void _initAudioPlayerStreams() {
+    _audioPlayer.onDurationChanged.listen((duration) {
+      setState(() {
+        _duration = duration;
+      });
+    });
+
+    _audioPlayer.onPositionChanged.listen((position) {
+      setState(() {
+        _position = position;
+      });
+    });
+
+    _audioPlayer.onPlayerStateChanged.listen((state) {
+      setState(() {
+        _playerState = state;
+      });
+    });
+
+    _audioPlayer.onPlayerComplete.listen((event) {
+      setState(() {
+        _playerState = PlayerState.stopped;
+        _position = Duration.zero;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    for (var c in _youtubePlayerControllers) {
+      c.close();
+    }
+    _audioPlayer.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +118,24 @@ class _LessonPageState extends State<LessonPage> {
         }
         return ListView(
           children: [
+            if (widget.lesson.theoryUrls.isNotEmpty)
+              Text(
+                'Theory',
+                style: Theme.of(context).textTheme.displayLarge,
+                textAlign: TextAlign.center,
+              ),
+            if (widget.lesson.theoryUrls.isNotEmpty)
+              Column(
+                children: _youtubePlayerControllers.map((controller) {
+                  return Padding(
+                    padding: const EdgeInsets.all(90.0),
+                    child: YoutubePlayer(
+                      controller: controller,
+                      aspectRatio: 16 / 9,
+                    ),
+                  );
+                }).toList(),
+              ),
             // Отображение грамматических упражнений
             Text(
               'Grammar Exercises',
@@ -80,25 +166,31 @@ class _LessonPageState extends State<LessonPage> {
             ),
 
             // Отображение чтения
-            Text(
-              'Grammar Exercises',
-              style: Theme.of(context).textTheme.displayLarge,
-              textAlign: TextAlign.center,
-            ),
             ...widget.lesson.readingExercises.map((exercise) {
               return ExpansionTile(
                 title: Text(
                   exercise.type,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
-                children: exercise.questions.map((question) {
-                  return QuestionWidget(
-                    question: question,
-                    onAnswerSelected: (selectedOption) {
-                      // Обработка выбора ответа
-                    },
-                  );
-                }).toList(),
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Text(
+                      exercise.text,
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  ...exercise.questions.map((question) {
+                    return QuestionWidget(
+                      question: question,
+                      onAnswerSelected: (selectedOption) {
+                        // Обработка выбора ответа
+                      },
+                    );
+                  }).toList(),
+                ],
               );
             }).toList(),
 
@@ -109,26 +201,96 @@ class _LessonPageState extends State<LessonPage> {
             ),
 
             // Отображение аудирования
-            Text(
-              'Grammar Exercises',
-              style: Theme.of(context).textTheme.displayLarge,
-              textAlign: TextAlign.center,
-            ),
             ...widget.lesson.auditionExercises.map((exercise) {
               return ExpansionTile(
-                title: Text(
-                  exercise.type,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                children: exercise.questions.map((question) {
-                  return QuestionWidget(
-                    question: question,
-                    onAnswerSelected: (selectedOption) {
-                      // Обработка выбора ответа
-                    },
-                  );
-                }).toList(),
-              );
+                  title: Text(
+                    exercise.type,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  children: [
+                    // Аудиоплеер для воспроизведения аудиофайла
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                icon: Icon(Icons.play_arrow),
+                                onPressed: () async {
+                                  await _audioPlayer
+                                      .setSource(UrlSource(exercise.url));
+                                  await _audioPlayer.resume();
+                                },
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.pause),
+                                onPressed: () async {
+                                  await _audioPlayer.pause();
+                                },
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.stop),
+                                onPressed: () async {
+                                  await _audioPlayer.stop();
+                                },
+                              ),
+                              SizedBox(width: 20,),
+                              Icon(Icons.volume_up),
+                              Slider(
+                                value: _volume,
+                                min: 0.0,
+                                max: 1.0,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _volume = value;
+                                    _audioPlayer.setVolume(
+                                        _volume); // Устанавливаем громкость
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                          Slider(
+                            value: (_position != null &&
+                                    _duration != null &&
+                                    _position!.inMilliseconds > 0 &&
+                                    _position!.inMilliseconds <
+                                        _duration!.inMilliseconds)
+                                ? _position!.inMilliseconds /
+                                    _duration!.inMilliseconds
+                                : 0.0,
+                            onChanged: (value) {
+                              final duration = _duration;
+                              if (duration == null) {
+                                return;
+                              }
+                              final position = value * duration.inMilliseconds;
+                              _audioPlayer.seek(
+                                  Duration(milliseconds: position.round()));
+                            },
+                          ),
+                          Text(
+                            _position != null
+                                ? '${_position.toString().split('.').first} / ${_duration.toString().split('.').first}'
+                                : _duration != null
+                                    ? _duration.toString().split('.').first
+                                    : '',
+                            style: const TextStyle(fontSize: 16.0),
+                          ),
+                        ],
+                      ),
+                    ),
+                    ...exercise.questions.map((question) {
+                      return QuestionWidget(
+                        question: question,
+                        onAnswerSelected: (selectedOption) {
+                          // Обработка выбора ответа
+                        },
+                      );
+                    }),
+                  ]);
             }).toList(),
 
             Text(

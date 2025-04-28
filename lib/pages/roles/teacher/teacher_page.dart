@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:igi_course_project/DAL/models/course/course.dart';
@@ -92,11 +94,8 @@ class MyCoursesList extends StatelessWidget {
                 elevation: 4,
                 margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: ListTile(
-                  leading: SizedBox(
-                    width: 100,
-                    height: 70,
-                    child: Placeholder(),
-                  ),
+                  leading:
+                      Image.asset('course_img_${Random().nextInt(10) + 1}.png'),
                   title: Text(myCourses[index].title),
                   subtitle: Text(myCourses[index].description),
                   onTap: () async {

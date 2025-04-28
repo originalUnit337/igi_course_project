@@ -79,9 +79,22 @@ class CourseRepository {
     DocumentReference courseRef =
         FirebaseFirestore.instance.collection('Courses').doc(courseId);
 
-    await FirebaseFirestore.instance.collection('users').doc(userId).update({
-      'subscribedCourses': FieldValue.arrayUnion([courseRef]),
+    await FirebaseFirestore.instance.runTransaction((transaction) async {
+      DocumentSnapshot courseSnapshot = await transaction.get(courseRef);
+      Map<String, dynamic>? courseData = courseSnapshot.data() as Map<String, dynamic>?;
+      int currentPopularity = courseData?['popularity'] ?? 0;
+      int newPopularity = currentPopularity + 1;
+      transaction.update(courseRef, {'popularity': newPopularity});
+
+      transaction
+          .update(FirebaseFirestore.instance.collection('users').doc(userId), {
+        'subscribedCourses': FieldValue.arrayUnion([courseRef]),
+      });
     });
+
+    // await FirebaseFirestore.instance.collection('users').doc(userId).update({
+    //   'subscribedCourses': FieldValue.arrayUnion([courseRef]),
+    // });
   }
 
   Future<void> deleteCourse(String courseId) async {
@@ -133,7 +146,7 @@ class CourseRepository {
         FirebaseFirestore.instance.collection('Courses');
     try {
       // Обновляем сам документ курса
-        await courses.doc(course.documentId).update(course.toJson());
+      await courses.doc(course.documentId).update(course.toJson());
 
       // Обновляем подколлекцию Lessons
       // CollectionReference lessonsRef =

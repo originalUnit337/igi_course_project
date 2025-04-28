@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-
-import '../../DAL/models/lesson/lesson.dart';
+import 'package:igi_course_project/DAL/models/course/course.dart';
+import 'package:igi_course_project/DAL/models/lesson/lesson.dart';
 
 abstract class CourseState extends Equatable {
   @override
@@ -12,7 +12,7 @@ class CourseInitial extends CourseState {}
 class CourseLoading extends CourseState {}
 
 class CourseLoaded extends CourseState {
-  final List<Lesson> courses;
+  final List<Course> courses;
 
   CourseLoaded(this.courses);
 
@@ -27,4 +27,18 @@ class CourseError extends CourseState {
 
   @override
   List<Object> get props => [message];
+}
+
+class LessonsLoading extends CourseState {}
+
+class LessonsLoaded extends CourseState {
+  final List<Lesson> lessons;
+
+  LessonsLoaded(this.lessons);
+}
+
+class LessonError extends CourseState {
+  final String message;
+
+  LessonError(this.message);
 }

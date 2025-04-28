@@ -1,7 +1,8 @@
 import 'package:equatable/equatable.dart';
+import 'package:igi_course_project/DAL/models/course/course.dart';
+import 'package:igi_course_project/DAL/models/lesson/lesson.dart';
 import 'package:igi_course_project/DAL/models/user_models/teacher.dart';
 
-import '../../DAL/models/lesson/lesson.dart';
 
 abstract class CourseEvent extends Equatable {
   @override
@@ -9,7 +10,7 @@ abstract class CourseEvent extends Equatable {
 }
 
 class AddCourseEvent extends CourseEvent {
-  final Lesson course;
+  final Course course;
   final Teacher currentTeacher;
 
   AddCourseEvent(this.course, this.currentTeacher);
@@ -34,7 +35,21 @@ class DeleteCourseEvent extends CourseEvent {
 }
 
 class UpdateCourseEvent extends CourseEvent {
-  final Lesson course;
+  final Course course;
 
   UpdateCourseEvent(this.course);
+}
+
+class FetchLessonsEvent extends CourseEvent {
+  final Course course;
+
+  FetchLessonsEvent(this.course);
+}
+
+class UpdateLessonEvent extends CourseEvent {
+  final String courseId;
+  final String lessonId;
+  final Lesson lesson;
+
+  UpdateLessonEvent(this.courseId, this.lessonId, this.lesson);
 }

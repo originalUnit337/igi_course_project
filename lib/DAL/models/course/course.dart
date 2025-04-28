@@ -23,21 +23,33 @@ class Course {
         language = '',
         description = '',
         popularity = 0,
-        lessons = [];
+        lessons = [Lesson.empty()];
 
   factory Course.fromJson(Map<String, dynamic> json, {String? id}) {
-    var lessonsFromJson = json['lessons'] as List;
-    List<Lesson> lessonsList =
-        lessonsFromJson.map((lesson) => Lesson.fromJson(lesson)).toList();
+    if (json['lessons'] != null) {
+      var lessonsFromJson = json['lessons'] as List;
+      List<Lesson> lessonsList =
+          lessonsFromJson.map((lesson) => Lesson.fromJson(lesson)).toList();
 
-    return Course(
-      documentId: id ?? '',
-      title: json['title'],
-      language: json['language'],
-      description: json['description'],
-      popularity: json['popularity'],
-      lessons: lessonsList,
-    );
+      return Course(
+        documentId: id ?? '',
+        title: json['title'],
+        language: json['language'],
+        description: json['description'],
+        popularity: json['popularity'],
+        lessons: lessonsList,
+      );
+    }
+    else {
+      return Course(
+        documentId: id ?? '',
+        title: json['title'],
+        language: json['language'],
+        description: json['description'],
+        popularity: json['popularity'],
+        lessons: [],
+      );
+    }
   }
 
   Map<String, dynamic> toJson() {

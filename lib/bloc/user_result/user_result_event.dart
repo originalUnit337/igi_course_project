@@ -4,14 +4,16 @@ abstract class UserResultEvent {}
 
 class SaveUserResultEvent extends UserResultEvent {
   final String courseId;
+  final String lessonId;
   final UserResult userResult;
 
-  SaveUserResultEvent(this.courseId, this.userResult);
+  SaveUserResultEvent(this.courseId, this.lessonId, this.userResult);
 }
 
 class FetchUserResultEvent extends UserResultEvent {
   final String courseId;
+  final String lessonId;
   //final String userId;
 
-  FetchUserResultEvent(this.courseId);
+  FetchUserResultEvent(this.courseId, this.lessonId);
 }

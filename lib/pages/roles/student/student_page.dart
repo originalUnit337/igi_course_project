@@ -65,7 +65,7 @@ class MyCoursesList extends StatelessWidget {
                     height: 70,
                     child: Placeholder(),
                   ),
-                  title: Text(myCourses[index].name),
+                  title: Text(myCourses[index].title),
                   subtitle: Text(myCourses[index].description),
                   onTap: () async {
                     await Navigator.pushNamed(context, '/coursePage',
@@ -120,7 +120,7 @@ class AvailableCoursesList extends StatelessWidget {
                     height: 70,
                     child: Placeholder(),
                   ),
-                  title: Text(availableCourses[index].name),
+                  title: Text(availableCourses[index].title),
                   subtitle: Text(availableCourses[index].description),
                   onTap: () {
                     Navigator.pushNamed(context, '/previewCoursePage',

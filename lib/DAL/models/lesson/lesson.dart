@@ -42,7 +42,7 @@ class Lesson {
     var grammarExercisesFromJson = json['grammarExercises'] as List;
     var readingExercisesFromJson = json['readingExercises'] as List;
     var auditionExercisesFromJson = json['auditionExercises'] as List;
-    var writtenExercisesFromJson = json['writternExercises'] as List;
+    var writtenExercisesFromJson = json['writtenExercises'] as List;
 
     List<GrammarExercise> grammarExercisesList = grammarExercisesFromJson
         .map((exercise) => GrammarExercise.fromJson(exercise))

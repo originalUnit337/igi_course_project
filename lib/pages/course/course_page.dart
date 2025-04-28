@@ -18,12 +18,14 @@ class CoursePage extends StatefulWidget {
 
 class _CoursePageState extends State<CoursePage> {
   final Map<String, String?> userAnswers = {};
+  final Map<String, String?> writtenExerciseAnswers =
+      {}; // Для письменных упражнений
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.course.name),
+        title: Text(widget.course.title),
       ),
       body: BlocBuilder<UserResultBloc, UserResultState>(
           builder: (context, state) {
@@ -48,25 +50,27 @@ class _CoursePageState extends State<CoursePage> {
               style: Theme.of(context).textTheme.displayLarge,
               textAlign: TextAlign.center,
             ),
-            ...widget.course.grammarExercises.map((exercise) {
-              return ExpansionTile(
-                title: Text(
-                  exercise.type,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                children: exercise.questions.map((question) {
-                  return QuestionWidget(
-                    question: question,
-                    onAnswerSelected: (selectedOption) {
-                      setState(() {
-                        userAnswers[question.task] =
-                            selectedOption; // Сохраняем ответ
-                      });
-                    },
-                  );
-                }).toList(),
-              );
-            }).toList(),
+            ...widget.course.lessons
+                .expand((lesson) => lesson.grammarExercises.map((exercise) {
+                      return ExpansionTile(
+                        title: Text(
+                          exercise.type,
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        children: exercise.questions.map((question) {
+                          return QuestionWidget(
+                            question: question,
+                            onAnswerSelected: (selectedOption) {
+                              setState(() {
+                                userAnswers[question.task] =
+                                    selectedOption; // Сохраняем ответ
+                              });
+                            },
+                          );
+                        }).toList(),
+                      );
+                    }))
+                .toList(),
 
             Text(
               'Reading Exercises',
@@ -75,25 +79,27 @@ class _CoursePageState extends State<CoursePage> {
             ),
 
             // Отображение чтения
-            ...widget.course.readingExercises.map((exercise) {
-              return ExpansionTile(
-                title: Text(
-                  exercise.type,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                children: exercise.questions.map((question) {
-                  return QuestionWidget(
-                    question: question,
-                    onAnswerSelected: (selectedOption) {
-                      setState(() {
-                        userAnswers[question.task] =
-                            selectedOption; // Сохраняем ответ
-                      });
-                    },
-                  );
-                }).toList(),
-              );
-            }).toList(),
+            ...widget.course.lessons
+                .expand((lesson) => lesson.readingExercises.map((exercise) {
+                      return ExpansionTile(
+                        title: Text(
+                          exercise.type,
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        children: exercise.questions.map((question) {
+                          return QuestionWidget(
+                            question: question,
+                            onAnswerSelected: (selectedOption) {
+                              setState(() {
+                                userAnswers[question.task] =
+                                    selectedOption; // Сохраняем ответ
+                              });
+                            },
+                          );
+                        }).toList(),
+                      );
+                    }))
+                .toList(),
 
             Text(
               'Audition Exercises',
@@ -102,83 +108,135 @@ class _CoursePageState extends State<CoursePage> {
             ),
 
             // Отображение аудирования
-            ...widget.course.auditionExercises.map((exercise) {
-              return ExpansionTile(
-                title: Text(
-                  exercise.type,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                children: exercise.questions.map((question) {
-                  return QuestionWidget(
-                    question: question,
-                    onAnswerSelected: (selectedOption) {
-                      setState(() {
-                        userAnswers[question.task] =
-                            selectedOption; // Сохраняем ответ
-                      });
-                    },
-                  );
-                }).toList(),
-              );
-            }).toList(),
+            ...widget.course.lessons
+                .expand((lesson) => lesson.auditionExercises.map((exercise) {
+                      return ExpansionTile(
+                        title: Text(
+                          exercise.type,
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        children: exercise.questions.map((question) {
+                          return QuestionWidget(
+                            question: question,
+                            onAnswerSelected: (selectedOption) {
+                              setState(() {
+                                userAnswers[question.task] =
+                                    selectedOption; // Сохраняем ответ
+                              });
+                            },
+                          );
+                        }).toList(),
+                      );
+                    }))
+                .toList(),
+
+            Text(
+              'Written Exercises',
+              style: Theme.of(context).textTheme.displayLarge,
+              textAlign: TextAlign.center,
+            ),
+            // Отображение письменных упражнений
+            ...widget.course.lessons
+                .expand((lesson) => lesson.writtenExercises.map((exercise) {
+                      return Card(
+                        margin:
+                            EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(exercise.task,
+                                  style: TextStyle(fontSize: 16)),
+                              SizedBox(height: 8),
+                              TextField(
+                                onChanged: (value) {
+                                  setState(() {
+                                    userAnswers[exercise.task] = value;
+                                    // Сохраняем ответ в userAnswers
+                                  });
+                                },
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  hintText: 'Введите ваш ответ',
+                                ),
+                              ),
+                              SizedBox(height: 8),
+                              if (userAnswers[exercise.task] != null)
+                                Text(
+                                  'Ваш ответ: ${userAnswers[exercise.task]}',
+                                  style: TextStyle(color: Colors.blue),
+                                ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }))
+                .toList(),
 
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: ElevatedButton(
                 onPressed: () {
                   List<String> correctAnswers = [];
+                  List<String?> writtenAnswers =
+                      []; // Для хранения ответов на письменные упражнения
 
                   // Сбор всех правильных ответов из всех типов упражнений
-                  for (var exercise in widget.course.grammarExercises) {
-                    for (var question in exercise.questions) {
-                      correctAnswers.add(question.answer);
+                  for (var lesson in widget.course.lessons) {
+                    for (var exercise in lesson.grammarExercises) {
+                      for (var question in exercise.questions) {
+                        correctAnswers.add(question.answer);
+                      }
                     }
-                  }
 
-                  for (var exercise in widget.course.readingExercises) {
-                    for (var question in exercise.questions) {
-                      correctAnswers.add(question.answer);
+                    for (var exercise in lesson.readingExercises) {
+                      for (var question in exercise.questions) {
+                        correctAnswers.add(question.answer);
+                      }
                     }
-                  }
 
-                  for (var exercise in widget.course.auditionExercises) {
-                    for (var question in exercise.questions) {
-                      correctAnswers.add(question.answer);
+                    for (var exercise in lesson.auditionExercises) {
+                      for (var question in exercise.questions) {
+                        correctAnswers.add(question.answer);
+                      }
+                    }
+
+                    for (var exercise in lesson.writtenExercises) {
+                      writtenAnswers.add(writtenExerciseAnswers[exercise.task]); // Добавляем ответ студента
                     }
                   }
 
                   // Подсчет баллов
                   double score = 0;
-                  for (var exercise in widget.course.grammarExercises) {
-                    for (var question in exercise.questions) {
-                      // Используем question.task как ключ для userAnswers
-                      String questionTask =
-                          question.task; // Получаем текст задания
-                      if (userAnswers[questionTask] == question.answer) {
-                        // Сравниваем с правильным ответом
-                        score++;
+                  for (var lesson in widget.course.lessons) {
+                    for (var exercise in lesson.grammarExercises) {
+                      for (var question in exercise.questions) {
+                        String questionTask =
+                            question.task; // Получаем текст задания
+                        if (userAnswers[questionTask] == question.answer) {
+                          score++;
+                        }
                       }
                     }
-                  }
 
-                  for (var exercise in widget.course.readingExercises) {
-                    for (var question in exercise.questions) {
-                      String questionTask =
-                          question.task; // Получаем текст задания
-                      if (userAnswers[questionTask] == question.answer) {
-                        // Сравниваем с правильным ответом
-                        score++;
+                    for (var exercise in lesson.readingExercises) {
+                      for (var question in exercise.questions) {
+                        String questionTask =
+                            question.task; // Получаем текст задания
+                        if (userAnswers[questionTask] == question.answer) {
+                          score++;
+                        }
                       }
                     }
-                  }
 
-                  for (var exercise in widget.course.auditionExercises) {
-                    for (var question in exercise.questions) {
-                      String questionTask =
-                          question.task; // Получаем текст задания
-                      if (userAnswers[questionTask] == question.answer) {
-                        // Сравниваем с правильным ответом
-                        score++;
+                    for (var exercise in lesson.auditionExercises) {
+                      for (var question in exercise.questions) {
+                        String questionTask =
+                            question.task; // Получаем текст задания
+                        if (userAnswers[questionTask] == question.answer) {
+                          score++;
+                        }
                       }
                     }
                   }
@@ -194,12 +252,14 @@ class _CoursePageState extends State<CoursePage> {
                     correctAnswers: correctAnswers,
                     score: score,
                     testDate: DateTime.now(),
+                    writtenExerciseAnswers: writtenAnswers,
+                    teacherFeedback: [],
                   );
 
                   // Сохраняем результаты
-                  BlocProvider.of<UserResultBloc>(context).add(
-                      SaveUserResultEvent(
-                          widget.course.documentId, userResult));
+                  // BlocProvider.of<UserResultBloc>(context).add(
+                  //     SaveUserResultEvent(
+                  //         widget.course.documentId, userResult));
                 },
                 child: Text('Сохранить результаты'),
               ),

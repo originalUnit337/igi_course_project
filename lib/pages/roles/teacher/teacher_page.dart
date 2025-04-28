@@ -97,7 +97,7 @@ class MyCoursesList extends StatelessWidget {
                     height: 70,
                     child: Placeholder(),
                   ),
-                  title: Text(myCourses[index].name),
+                  title: Text(myCourses[index].title),
                   subtitle: Text(myCourses[index].description),
                   onTap: () async {
                     await Navigator.pushNamed(context, '/courseDetails',
@@ -110,8 +110,13 @@ class MyCoursesList extends StatelessWidget {
               );
             },
           );
+        } else if (state is CourseError) {
+          return Center(
+              child: Text('Ошибка загрузки курсов: ${state.message}'));
         } else {
-          return Center(child: Text('Ошибка загрузки курсов'));
+          return Center(
+            child: Text('nothing'),
+          );
         }
       },
     );

@@ -26,7 +26,7 @@ class LessonPage extends StatefulWidget {
 }
 
 class _LessonPageState extends State<LessonPage> {
-  final Map<String, String?> userAnswers = {};
+  final Map<String, String?> testUserAnswers = {};
   final Map<String, String?> writtenExerciseAnswers =
       {}; // Для письменных упражнений
   late List<YoutubePlayerController> _youtubePlayerControllers;
@@ -152,7 +152,7 @@ class _LessonPageState extends State<LessonPage> {
                   return QuestionWidget(
                     question: question,
                     onAnswerSelected: (selectedOption) {
-                      // Обработка выбора ответа
+                      testUserAnswers[question.task] = selectedOption;
                     },
                   );
                 }).toList(),
@@ -186,7 +186,7 @@ class _LessonPageState extends State<LessonPage> {
                     return QuestionWidget(
                       question: question,
                       onAnswerSelected: (selectedOption) {
-                        // Обработка выбора ответа
+                        testUserAnswers[question.task] = selectedOption;
                       },
                     );
                   }).toList(),
@@ -236,7 +236,9 @@ class _LessonPageState extends State<LessonPage> {
                                   await _audioPlayer.stop();
                                 },
                               ),
-                              SizedBox(width: 20,),
+                              SizedBox(
+                                width: 20,
+                              ),
                               Icon(Icons.volume_up),
                               Slider(
                                 value: _volume,
@@ -286,7 +288,7 @@ class _LessonPageState extends State<LessonPage> {
                       return QuestionWidget(
                         question: question,
                         onAnswerSelected: (selectedOption) {
-                          // Обработка выбора ответа
+                          testUserAnswers[question.task] = selectedOption;
                         },
                       );
                     }),
@@ -312,7 +314,8 @@ class _LessonPageState extends State<LessonPage> {
                       TextField(
                         onChanged: (value) {
                           setState(() {
-                            userAnswers[exercise.task] = value;
+                            //testUserAnswers[exercise.task] = value;
+                            writtenExerciseAnswers[exercise.task] = value;
                             // Сохраняем ответ в userAnswers
                           });
                         },
@@ -322,9 +325,9 @@ class _LessonPageState extends State<LessonPage> {
                         ),
                       ),
                       SizedBox(height: 8),
-                      if (userAnswers[exercise.task] != null)
+                      if (writtenExerciseAnswers[exercise.task] != null)
                         Text(
-                          'Ваш ответ: ${userAnswers[exercise.task]}',
+                          'Ваш ответ: ${writtenExerciseAnswers[exercise.task]}',
                           style: TextStyle(color: Colors.blue),
                         ),
                     ],
@@ -374,7 +377,7 @@ class _LessonPageState extends State<LessonPage> {
                       for (var question in exercise.questions) {
                         String questionTask =
                             question.task; // Получаем текст задания
-                        if (userAnswers[questionTask] == question.answer) {
+                        if (testUserAnswers[questionTask] == question.answer) {
                           score++;
                         }
                       }
@@ -384,7 +387,7 @@ class _LessonPageState extends State<LessonPage> {
                       for (var question in exercise.questions) {
                         String questionTask =
                             question.task; // Получаем текст задания
-                        if (userAnswers[questionTask] == question.answer) {
+                        if (testUserAnswers[questionTask] == question.answer) {
                           score++;
                         }
                       }
@@ -394,7 +397,7 @@ class _LessonPageState extends State<LessonPage> {
                       for (var question in exercise.questions) {
                         String questionTask =
                             question.task; // Получаем текст задания
-                        if (userAnswers[questionTask] == question.answer) {
+                        if (testUserAnswers[questionTask] == question.answer) {
                           score++;
                         }
                       }
@@ -408,18 +411,21 @@ class _LessonPageState extends State<LessonPage> {
                   // Создаем объект UserResult
                   final userResult = UserResult(
                     userId: widget.userId,
-                    testAnswers: userAnswers.values.toList(),
+                    courseId: widget.course.documentId,
+                    lessonName: widget.lesson.title,
+                    testAnswers: testUserAnswers.values.toList(),
                     correctAnswers: correctAnswers,
                     score: score,
                     testDate: DateTime.now(),
                     writtenExerciseAnswers: writtenAnswers,
                     teacherFeedback: [],
                   );
+                  print(userResult);
 
                   // Сохраняем результаты
-                  // BlocProvider.of<UserResultBloc>(context).add(
-                  //     SaveUserResultEvent(
-                  //         widget.course.documentId, userResult));
+                  BlocProvider.of<UserResultBloc>(context).add(
+                      SaveUserResultEvent(
+                          widget.course.documentId, userResult));
                 },
                 child: Text('Сохранить результаты'),
               ),

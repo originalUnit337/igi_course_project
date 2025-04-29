@@ -17,7 +17,7 @@ class UserResultBloc extends Bloc<UserResultEvent, UserResultState> {
     emit(InProgress());
     try {
       await userResultRepository.saveUserResult(
-          event.courseId, event.lessonId, event.userResult);
+          event.courseId, event.userResult);
       emit(UserResultSaved());
       await Future.delayed(
         Duration(seconds: 3),

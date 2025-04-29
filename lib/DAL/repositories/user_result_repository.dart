@@ -6,17 +6,19 @@ class UserResultRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> saveUserResult(
-      String courseId, String lessonId, UserResult userResult) async {
-    await _firestore
-        .collection('Courses')
-        .doc(courseId)
-        .collection('Lessons')
-        .doc(lessonId)
-        .collection('userResults')
-        .doc(userResult.userId)
-        .set(userResult.toJson());
-    //.doc(userResult.userId)
-    //.set(userResult.toJson());
+      String courseId, UserResult userResult) async {
+    // await _firestore
+    //     .collection('Courses')
+    //     .doc(courseId)
+    //     .collection('Lessons')
+    //     .doc(lessonId)
+    //     .collection('userResults')
+    //     .doc(userResult.userId)
+    //     .set(userResult.toJson());
+    // await _firestore.collection('Courses').doc(courseId).collection('userResults')
+    // .doc(userResult.userId)
+    // .set(userResult.toJson());
+    await _firestore.collection('userResults').add(userResult.toJson());
     // .add(userResult
     //     .toJson()); // Используем add для создания нового документа
   }

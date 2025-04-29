@@ -1,5 +1,7 @@
 class UserResult {
   final String userId;
+  final String courseId;
+  final String lessonName;
   final List<String?> testAnswers;
   final List<String> correctAnswers;
   final double score;
@@ -10,6 +12,8 @@ class UserResult {
 
   UserResult({
     required this.userId,
+    required this.courseId,
+    required this.lessonName,
     required this.testAnswers,
     required this.correctAnswers,
     required this.score,
@@ -22,6 +26,8 @@ class UserResult {
   Map<String, dynamic> toJson() {
     return {
       'userId': userId,
+      'courseId': courseId,
+      'lessonName': lessonName,
       'answers': testAnswers,
       'correctAnswers': correctAnswers,
       'score': score,
@@ -35,6 +41,8 @@ class UserResult {
   factory UserResult.fromJson(Map<String, dynamic> json) {
     return UserResult(
       userId: json['userId'],
+      courseId: json['courseId'],
+      lessonName: json['lessonName'],
       testAnswers: List<String?>.from(json['answers']),
       correctAnswers: List<String>.from(json['correctAnswers']),
       score: json['score'],

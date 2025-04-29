@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:igi_course_project/DAL/repositories/user_repository.dart';
 import 'package:igi_course_project/bloc/user/user_event.dart';
@@ -8,6 +10,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   UserBloc(this.userRepository) : super(UserInitial()) {
     on<FetchUserEvent>(_fetchUsers);
+    on<BlockUserEvent>(_blockUser);
 
     add(FetchUserEvent());
   }
@@ -22,4 +25,13 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       emit(UserError(e.toString()));
     }
   }
+
+  FutureOr<void> _blockUser(
+      BlockUserEvent event, Emitter<UserState> emit) async {
+        try {
+          await userRepository.blocUser(event.user, event.isBlocked);
+        } catch (e) {
+
+        }
+      }
 }

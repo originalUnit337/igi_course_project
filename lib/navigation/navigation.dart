@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:igi_course_project/DAL/models/course/course.dart';
 import 'package:igi_course_project/DAL/models/lesson/lesson.dart';
+import 'package:igi_course_project/DAL/models/user_models/user.dart';
+import 'package:igi_course_project/pages/roles/admin/user_info_page.dart';
 import 'package:igi_course_project/pages/roles/student/course_page.dart';
 import 'package:igi_course_project/pages/roles/student/lesson_page.dart';
 import 'package:igi_course_project/pages/roles/teacher/course_details.dart';
@@ -66,6 +69,13 @@ class AppNavigator {
             course: course,
             lesson: lesson,
             userId: userId,
+          ),
+        );
+      case '/userInfoPage':
+        final UserModel user = settings.arguments as UserModel;
+        return MaterialPageRoute(
+          builder: (context) => UserInfoPage(
+            user: user,
           ),
         );
       case '/loginPage':

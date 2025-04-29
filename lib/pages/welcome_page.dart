@@ -66,10 +66,10 @@ class WelcomePage extends StatelessWidget {
                 '• Интерактивные уроки: Уникальные методики обучения, которые делают процесс увлекательным.',
                 style: TextStyle(fontSize: 18),
               ),
-              Text(
-                '• Поддержка сообщества: Общайтесь с другими учащимися и преподавателями.',
-                style: TextStyle(fontSize: 18),
-              ),
+              // Text(
+              //   '• Поддержка сообщества: Общайтесь с другими учащимися и преподавателями.',
+              //   style: TextStyle(fontSize: 18),
+              // ),
               Text(
                 '• Доступ к ресурсам: Получите доступ к множеству учебных материалов, включая видео, аудио и текстовые задания.',
                 style: TextStyle(fontSize: 18),
@@ -82,20 +82,22 @@ class WelcomePage extends StatelessWidget {
 
               // Кнопки действий
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      // Действие для кнопки "Начать обучение"
-                    },
-                    child: Text('Начать обучение'),
+                  Text(
+                    'Готовы погрузиться в уникальный путь изучения языков ? ->',
+                    style: TextStyle(color: Colors.redAccent),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Действие для кнопки "Посмотреть демо-уроки"
-                    },
-                    child: Text('Посмотреть демо-уроки'),
-                  ),
+                  // ElevatedButton(
+                  //   onPressed: () {},
+                  //   child: Text('Открыть доступные курсы'),
+                  // ),
+                  // ElevatedButton(
+                  //   onPressed: () {
+                  //     // Действие для кнопки "Посмотреть демо-уроки"
+                  //   },
+                  //   child: Text('Посмотреть демо-уроки'),
+                  // ),
                   ElevatedButton(
                     onPressed: () {
                       // Действие для кнопки "Зарегистрироваться"

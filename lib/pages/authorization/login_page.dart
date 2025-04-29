@@ -13,7 +13,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login'),
+        title: Text('Авторизация'),
       ),
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
@@ -64,7 +64,7 @@ class _LoginFormState extends State<LoginForm> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'Please login to get access to bla-bla-bla',
+            'Авторизуйтесь, для доступа к ресурсу',
             style: TextStyle(fontSize: 18),
             textAlign: TextAlign.center,
           ),
@@ -72,7 +72,7 @@ class _LoginFormState extends State<LoginForm> {
           TextField(
             controller: _emailController,
             decoration: InputDecoration(
-              labelText: 'Email',
+              labelText: 'Почта',
               border: OutlineInputBorder(),
             ),
             keyboardType: TextInputType.emailAddress,
@@ -81,7 +81,7 @@ class _LoginFormState extends State<LoginForm> {
           TextField(
             controller: _passwordController,
             decoration: InputDecoration(
-              labelText: 'Password',
+              labelText: 'Пароль',
               border: OutlineInputBorder(),
             ),
             obscureText: true,
@@ -111,12 +111,12 @@ class _LoginFormState extends State<LoginForm> {
                       );
                     }
                   },
-                  child: Text('Login'),
+                  child: Text('Авторизоваться'),
                 ),
           SizedBox(height: 20),
           Divider(),
           SizedBox(height: 20),
-          Text('Or login with: '),
+          //Text('Or login with: '),
         ],
       );
     });

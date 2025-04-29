@@ -17,7 +17,11 @@ class UserRepository {
         String role = doc['role'];
         switch (role) {
           case 'admin':
-            return Admin(uid: doc.id, email: doc['email']);
+            return Admin(
+              uid: doc.id,
+              email: doc['email'],
+              isBlocked: doc['isBlocked'],
+            );
           case 'teacher':
             final data = doc.data() as Map<String, dynamic>;
             final coursesIdList = (data.containsKey('courses_id') &&
@@ -30,6 +34,7 @@ class UserRepository {
               uid: doc.id,
               email: doc['email'],
               createdCourses: coursesIdList,
+              isBlocked: doc['isBlocked'],
             );
           case 'student':
             final data = doc.data() as Map<String, dynamic>;
@@ -43,11 +48,23 @@ class UserRepository {
               uid: doc.id,
               email: doc['email'],
               subscribedCourses: subcribedCourses,
+              isBlocked: doc['isBlocked'],
             );
           default:
             return null;
         }
       }).toList();
+    } on Exception {
+      rethrow;
+    }
+  }
+
+  Future<void> blocUser(UserModel user, bool isBlocked) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .update({'isBlocked': isBlocked});
     } on Exception {
       rethrow;
     }

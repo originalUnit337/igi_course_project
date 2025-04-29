@@ -17,7 +17,7 @@ class AdminPage extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Admin Dashboard'),
+          title: Text('Панель управления администратора'),
           bottom: TabBar(
             tabs: [
               Tab(text: 'Пользователи'),
@@ -59,7 +59,12 @@ class UserList extends StatelessWidget {
                     height: 70,
                     child: Placeholder(),
                   ),
+                  tileColor: state.users[index]!.isBlocked ? Colors.red : Colors.white,
                   title: Text(state.users[index]!.email),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/userInfoPage',
+                        arguments: state.users[index]);
+                  },
                 ),
               );
             },

@@ -89,7 +89,7 @@ class HomePage extends StatelessWidget {
             //return Center(child: Text('STUDENT'));
             return StudentPage(currentUser: currentUser);
           } else {
-            return YouTubePlayerScreen();
+            return WelcomePage();
             // switch (courseState) {
             //   case CourseLoading _:
             //     return Center(child: CircularProgressIndicator());
@@ -124,13 +124,13 @@ class HomePage extends StatelessWidget {
           }
         });
       }),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => {
-          //GetIt.I<CourseBloc>().add(FetchCourseEvent()),
-          //BlocProvider.of<CourseBloc>(context).add(FetchCourseEvent()),
-          //addCourseOGO()
-        },
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () => {
+      //     //GetIt.I<CourseBloc>().add(FetchCourseEvent()),
+      //     //BlocProvider.of<CourseBloc>(context).add(FetchCourseEvent()),
+      //     //addCourseOGO()
+      //   },
+      // ),
     );
   }
 }

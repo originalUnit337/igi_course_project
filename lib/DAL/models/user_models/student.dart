@@ -6,5 +6,6 @@ class Student extends UserModel {
   Student(
       {required super.uid,
       required super.email,
-      required this.subscribedCourses});
+      required this.subscribedCourses,
+      super.isBlocked = false});
 }

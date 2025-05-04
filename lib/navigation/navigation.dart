@@ -7,9 +7,10 @@ import 'package:igi_course_project/DAL/models/user_result/user_result.dart';
 import 'package:igi_course_project/pages/roles/admin/user_info_page.dart';
 import 'package:igi_course_project/pages/roles/student/course_page.dart';
 import 'package:igi_course_project/pages/roles/student/lesson_page.dart';
-import 'package:igi_course_project/pages/roles/student/result_page.dart';
+import 'package:igi_course_project/pages/roles/student/student_result_page.dart';
 import 'package:igi_course_project/pages/roles/teacher/course_details.dart';
 import 'package:igi_course_project/pages/roles/teacher/lesson_details.dart';
+import 'package:igi_course_project/pages/roles/teacher/teacher_result_page.dart';
 
 import '../pages/authorization/login_page.dart';
 import '../pages/authorization/registration_page.dart';
@@ -73,7 +74,7 @@ class AppNavigator {
             userId: userId,
           ),
         );
-      case '/resultPage':
+      case '/studentResultPage':
         final Map<String, dynamic> args =
             settings.arguments as Map<String, dynamic>;
         final Course course = args['course'];
@@ -81,7 +82,22 @@ class AppNavigator {
         final String userId = args['userId'];
         final UserResult userResult = args['userResult'];
         return MaterialPageRoute(
-          builder: (context) => ResultPage(
+          builder: (context) => StudentResultPage(
+            course: course,
+            lesson: lesson,
+            userId: userId,
+            userResult: userResult,
+          ),
+        );
+      case '/teacherResultPage':
+        final Map<String, dynamic> args =
+            settings.arguments as Map<String, dynamic>;
+        final Course course = args['course'];
+        final Lesson lesson = args['lesson'];
+        final String userId = args['userId'];
+        final UserResult userResult = args['userResult'];
+        return MaterialPageRoute(
+          builder: (context) => TeacherResultPage(
             course: course,
             lesson: lesson,
             userId: userId,

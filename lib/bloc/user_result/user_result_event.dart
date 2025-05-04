@@ -24,3 +24,9 @@ class FetchUserLessonsResults extends UserResultEvent {
 
   FetchUserLessonsResults(this.userId, this.courseId);
 }
+
+class FetchAllUsersCourseResults extends UserResultEvent {
+  String courseId;
+
+  FetchAllUsersCourseResults(this.courseId);
+}

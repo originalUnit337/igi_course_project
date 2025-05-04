@@ -61,12 +61,13 @@ class _CoursePageState extends State<CoursePage> {
                 tileColor: tileColor, // Устанавливаем цвет фона
                 onTap: () {
                   if (userResult.isChecked) {
-                    Navigator.pushNamed(context, '/resultPage', arguments: {
-                      'userId': widget.userId,
-                      'course': widget.course,
-                      'lesson': lesson,
-                      'userResult': userResult, // Передаем результат
-                    });
+                    Navigator.pushNamed(context, '/studentResultPage',
+                        arguments: {
+                          'userId': widget.userId,
+                          'course': widget.course,
+                          'lesson': lesson,
+                          'userResult': userResult, // Передаем результат
+                        });
                   } else {
                     Navigator.pushNamed(context, '/lessonPage', arguments: {
                       'userId': widget.userId,

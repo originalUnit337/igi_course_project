@@ -13,6 +13,7 @@ class UserResultBloc extends Bloc<UserResultEvent, UserResultState> {
     on<SaveUserResultEvent>(_onSaveUserResult);
     on<FetchUserResultEvent>(_onFetchUserResult);
     on<FetchUserLessonsResults>(_onFetchUserLessonsResults);
+    on<FetchAllUsersCourseResults>(_onFetchAllUsersCourseResults);
   }
 
   Future<void> _onSaveUserResult(
@@ -55,6 +56,18 @@ class UserResultBloc extends Bloc<UserResultEvent, UserResultState> {
       emit(InProgress());
       List<UserResult?> userResults = await userResultRepository
           .getUserLessonsResults(event.userId, event.courseId);
+      emit(UserResultLoaded(userResults));
+    } catch (e) {
+      emit(UserResultError(e.toString()));
+    }
+  }
+
+  FutureOr<void> _onFetchAllUsersCourseResults(
+      FetchAllUsersCourseResults event, Emitter<UserResultState> emit) async {
+    try {
+      emit(InProgress());
+      var userResults =
+          await userResultRepository.getAllUserCourseResults(event.courseId);
       emit(UserResultLoaded(userResults));
     } catch (e) {
       emit(UserResultError(e.toString()));

@@ -26,7 +26,7 @@ class LessonDetails extends StatelessWidget {
           bottom: TabBar(
             tabs: [
               Tab(text: 'Уроки'),
-              Tab(text: 'Результаты студентов'),
+              //Tab(text: 'Результаты студентов'),
             ],
           ),
         ),

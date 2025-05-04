@@ -3,13 +3,13 @@ import 'package:igi_course_project/DAL/models/course/course.dart';
 import 'package:igi_course_project/DAL/models/lesson/lesson.dart';
 import 'package:igi_course_project/DAL/models/user_result/user_result.dart';
 
-class ResultPage extends StatelessWidget {
+class StudentResultPage extends StatelessWidget {
   final Lesson lesson;
   final Course course;
   final String userId;
   final UserResult userResult;
 
-  const ResultPage({
+  const StudentResultPage({
     Key? key,
     required this.lesson,
     required this.course,

@@ -9,9 +9,6 @@ class WelcomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String videoUrl =
-        'https://videos.pexels.com/video-files/31576430/13457171_1920_1080_30fps.mp4';
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Добро пожаловать на LinguaLearn!'),
@@ -35,24 +32,107 @@ class WelcomePage extends StatelessWidget {
                   Expanded(
                     child: Image.network(
                       'https://media.istockphoto.com/id/2173915109/photo/skill-competency-development-concept-up-new-ability-skill-training-for-technology-evolution.jpg?s=2048x2048&w=is&k=20&c=EntBZe7FHA2R7aGAA8OlfMgN7aoLf95MwU3ZOTk0iIU=', // Замените на URL вашей картинки
-                      height: 200,
-                      fit: BoxFit.cover,
+                      // height: 200,
+                      // fit: BoxFit.cover,
                     ),
                   ),
-                  SizedBox(width: 16),
+                  SizedBox(width: 24),
                   Expanded(
                     child: Text(
                       'LinguaLearn — это некоммерческий портал, созданный для поддержки студентов в изучении иностранных языков. '
                       'Мы предлагаем доступ к качественным образовательным ресурсам, интерактивным курсам и поддержке сообщества. '
                       'Наша цель — помочь вам развить языковые навыки, необходимые для успешной учебы и карьеры.',
-                      style: TextStyle(fontSize: 18),
+                      style: TextStyle(fontSize: 40),
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 20),
-
-              // Преимущества
+              SizedBox(height: 40),
+              Divider(),
+              SizedBox(
+                height: 40,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Изучайте в своем темпе',
+                      style: TextStyle(
+                        fontSize: 40,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 24,
+                  ),
+                  Expanded(
+                    child: Image.network(
+                      'https://media.istockphoto.com/id/1483233750/ru/%D1%84%D0%BE%D1%82%D0%BE/%D0%BF%D0%B0%D1%80%D0%B0-%D0%B4%D0%B5%D0%BB%D0%BE%D0%B2%D1%8B%D1%85-%D0%BB%D1%8E%D0%B4%D0%B5%D0%B9-%D0%B3%D1%83%D0%BB%D1%8F%D1%8E%D1%82-%D0%B2%D0%BC%D0%B5%D1%81%D1%82%D0%B5-%D0%B8-%D1%80%D0%B0%D0%B7%D0%B3%D0%BE%D0%B2%D0%B0%D1%80%D0%B8%D0%B2%D0%B0%D1%8E%D1%82.jpg?s=2048x2048&w=is&k=20&c=f6d-YnoTqkx5uRgHavcK1kj2puonC-oCaChGsTOZ61Q=',
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 40),
+              Divider(),
+              SizedBox(
+                height: 40,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Image.network(
+                      'https://media.istockphoto.com/id/1345613849/ru/%D0%B2%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F/%D0%BC%D1%83%D0%B6%D1%87%D0%B8%D0%BD%D1%8B-%D0%B1%D0%B5%D1%81%D0%B5%D0%B4%D1%83%D1%8E%D1%82.jpg?s=2048x2048&w=is&k=20&c=OFzA2k8MJkHcWa3EYN4TZBGSVy2IEcVNErpXRs6eKgs=',
+                      // height: 500,
+                      // width: 700,
+                      // fit: BoxFit.cover,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 24,
+                  ),
+                  Expanded(
+                    child: Text(
+                      'Изучайте новый язык с уверенностью',
+                      style: TextStyle(
+                        fontSize: 40,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 40),
+              Divider(),
+              SizedBox(
+                height: 40,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Развивайте свои навыки различными инструментами',
+                      style: TextStyle(
+                        fontSize: 40,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 24,
+                  ),
+                  Expanded(
+                    child: Image.network(
+                      'https://media.istockphoto.com/id/1316967414/ru/%D1%84%D0%BE%D1%82%D0%BE/%D0%B2%D0%B8%D0%B4-%D1%81%D0%B2%D0%B5%D1%80%D1%85%D1%83-%D0%B7%D0%B0%D0%B6%D0%B8%D0%BC%D0%B0-%D0%B3%D0%B0%D0%B5%D1%87%D0%BD%D0%BE%D0%B3%D0%BE-%D0%BA%D0%BB%D1%8E%D1%87%D0%B0-%D0%B8-%D0%B4%D0%BE%D1%81%D0%BA%D0%B8-%D0%BD%D0%B0%D0%BF%D0%B8%D1%81%D0%B0%D0%BD%D0%BD%D0%BE%D0%B9-%D1%81-develop-your-skills-%D0%BD%D0%B0-%D0%B1%D0%B5%D0%BB%D0%BE%D0%BC-%D0%B4%D0%B5%D1%80%D0%B5%D0%B2%D1%8F%D0%BD%D0%BD%D0%BE%D0%BC.jpg?s=2048x2048&w=is&k=20&c=KGGQHQwh7dYDSsNG6HEijSWBnAG7Fg8SciGI_3wHz04=',
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 40),
+              Divider(),
+              SizedBox(
+                height: 40,
+              ),
               Text(
                 'Преимущества:',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
@@ -107,8 +187,6 @@ class WelcomePage extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 20),
-              //VideoPlayerScreen(videoUrl: videoUrl),
-              //YouTubePlayerScreen(),
 
               // Контактная информация
               Text(
@@ -122,113 +200,6 @@ class WelcomePage extends StatelessWidget {
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class VideoPlayerScreen extends StatefulWidget {
-  final String videoUrl;
-
-  VideoPlayerScreen({required this.videoUrl});
-
-  @override
-  _VideoPlayerScreenState createState() => _VideoPlayerScreenState();
-}
-
-class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
-  late VideoPlayerController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl))
-      ..initialize().then((_) {
-        setState(() {}); // Обновляем состояние после инициализации
-      });
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        // Проверяем, инициализирован ли контроллер
-        _controller.value.isInitialized
-            ? AspectRatio(
-                aspectRatio: _controller.value.aspectRatio,
-                child: VideoPlayer(_controller),
-              )
-            : CircularProgressIndicator(),
-        SizedBox(height: 10),
-        // Кнопка для воспроизведения/паузы
-        FloatingActionButton(
-          onPressed: () {
-            setState(() {
-              _controller.value.isPlaying
-                  ? _controller.pause()
-                  : _controller.play();
-            });
-          },
-          child: Icon(
-            _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class YouTubePlayerScreen extends StatefulWidget {
-  const YouTubePlayerScreen({super.key});
-
-  @override
-  _YouTubePlayerScreenState createState() => _YouTubePlayerScreenState();
-}
-
-class _YouTubePlayerScreenState extends State<YouTubePlayerScreen> {
-  late YoutubePlayerController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = YoutubePlayerController.fromVideoId(
-      videoId: '2S9oO8MQi0o', // Замените на ID вашего видео
-      params: const YoutubePlayerParams(
-        showControls: true,
-        showFullscreenButton: true,
-        mute: false,
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.close();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('YouTube Player'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            YoutubePlayer(
-              controller: _controller,
-              aspectRatio: 16 / 9,
-            ),
-          ],
         ),
       ),
     );

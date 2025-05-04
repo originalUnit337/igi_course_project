@@ -17,14 +17,14 @@ class PreviewCoursePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Preview: ${course.name}'),
+        title: Text('Preview: ${course.title}'),
       ),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
             children: [
               Text(
-                course.name,
+                course.title,
                 style: Theme.of(context).textTheme.labelLarge,
               ),
               Text(course.description,

@@ -21,9 +21,12 @@ class AuthRepository {
         DocumentSnapshot doc =
             await _firestore.collection('users').doc(user.uid).get();
 
-        if (doc.exists) {
+        if (doc.exists && !doc['isBlocked']) {
           String role = doc['role'];
           return await _getUserByRole(user.uid, role);
+        }
+        if (doc['isBlocked']) {
+          throw 'Вы заблокированы';
         }
       }
       return null;

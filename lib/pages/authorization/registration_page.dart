@@ -12,7 +12,7 @@ class RegistrationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Registration'),
+        title: Text('Регистрация'),
       ),
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
@@ -74,7 +74,7 @@ class _RegisterFormState extends State<RegisterForm> {
           TextField(
             controller: _emailController,
             decoration: InputDecoration(
-              labelText: 'Email',
+              labelText: 'Почта',
               border: OutlineInputBorder(),
             ),
             keyboardType: TextInputType.emailAddress,
@@ -83,7 +83,7 @@ class _RegisterFormState extends State<RegisterForm> {
           TextField(
             controller: _passwordController,
             decoration: InputDecoration(
-              labelText: 'Password',
+              labelText: 'Пароль',
               border: OutlineInputBorder(),
             ),
             obscureText: true,
@@ -138,12 +138,12 @@ class _RegisterFormState extends State<RegisterForm> {
                       );
                     }
                   },
-                  child: Text('Register'),
+                  child: Text('Зарегистрироваться'),
                 ),
           SizedBox(height: 20),
           Divider(),
           SizedBox(height: 20),
-          Text('Or register with: '),
+          //Text('Or register with: '),
         ],
       );
     });

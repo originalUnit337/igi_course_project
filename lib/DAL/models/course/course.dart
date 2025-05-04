@@ -1,71 +1,64 @@
-import 'audition_exercise.dart';
-import 'grammar_exercise.dart';
-import 'reading_exercise.dart';
+import 'package:igi_course_project/DAL/models/lesson/lesson.dart';
 
 class Course {
   final String documentId;
-  String name;
-  String description;
-  String language;
-  List<GrammarExercise> grammarExercises;
-  List<ReadingExercise> readingExercises;
-  List<AuditionExercise> auditionExercises;
+  String title; // Название курса
+  String language; // Язык курса
+  String description; // Описание курса
+  int popularity;
+  List<Lesson> lessons; // Список уроков
 
   Course({
     required this.documentId,
-    required this.name,
-    required this.description,
+    required this.title,
     required this.language,
-    required this.grammarExercises,
-    required this.readingExercises,
-    required this.auditionExercises,
+    required this.description,
+    this.popularity = 0,
+    required this.lessons,
   });
 
   Course.empty()
       : documentId = '',
-        name = '',
-        description = '',
+        title = '',
         language = '',
-        grammarExercises = [],
-        readingExercises = [],
-        auditionExercises = [];
+        description = '',
+        popularity = 0,
+        lessons = [Lesson.empty()];
 
   factory Course.fromJson(Map<String, dynamic> json, {String? id}) {
-    var grammarExercisesFromJson = json['grammarExercises'] as List;
-    var readingExercisesFromJson = json['readingExercises'] as List;
-    var auditionExercisesFromJson = json['auditionExercises'] as List;
+    if (json['lessons'] != null) {
+      var lessonsFromJson = json['lessons'] as List;
+      List<Lesson> lessonsList =
+          lessonsFromJson.map((lesson) => Lesson.fromJson(lesson)).toList();
 
-    List<GrammarExercise> grammarExercisesList = grammarExercisesFromJson
-        .map((exercise) => GrammarExercise.fromJson(exercise))
-        .toList();
-
-    List<ReadingExercise> readingExercisesList = readingExercisesFromJson
-        .map((e) => ReadingExercise.fromJson(e))
-        .toList();
-
-    List<AuditionExercise> auditionExercisesList = auditionExercisesFromJson
-        .map((a) => AuditionExercise.fromJson(a))
-        .toList();
-
-    return Course(
-      documentId: id ?? '',
-      name: json['name'],
-      description: json['description'],
-      language: json['language'],
-      grammarExercises: grammarExercisesList,
-      readingExercises: readingExercisesList,
-      auditionExercises: auditionExercisesList,
-    );
+      return Course(
+        documentId: id ?? '',
+        title: json['title'],
+        language: json['language'],
+        description: json['description'],
+        popularity: json['popularity'],
+        lessons: lessonsList,
+      );
+    }
+    else {
+      return Course(
+        documentId: id ?? '',
+        title: json['title'],
+        language: json['language'],
+        description: json['description'],
+        popularity: json['popularity'],
+        lessons: [],
+      );
+    }
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'name': name,
-      'description': description,
+      'title': title,
       'language': language,
-      'grammarExercises': grammarExercises.map((e) => e.toJson()).toList(),
-      'readingExercises': readingExercises.map((e) => e.toJson()).toList(),
-      'auditionExercises': auditionExercises.map((a) => a.toJson()).toList(),
+      'description': description,
+      'popularity': popularity,
+      'lessons': lessons.map((lesson) => lesson.toJson()).toList(),
     };
   }
 }

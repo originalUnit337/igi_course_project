@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:igi_course_project/bloc/course/course_bloc.dart';
@@ -15,7 +17,7 @@ class AdminPage extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Admin Dashboard'),
+          title: Text('Панель управления администратора'),
           bottom: TabBar(
             tabs: [
               Tab(text: 'Пользователи'),
@@ -57,7 +59,12 @@ class UserList extends StatelessWidget {
                     height: 70,
                     child: Placeholder(),
                   ),
+                  tileColor: state.users[index]!.isBlocked ? Colors.red : Colors.white,
                   title: Text(state.users[index]!.email),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/userInfoPage',
+                        arguments: state.users[index]);
+                  },
                 ),
               );
             },
@@ -91,17 +98,15 @@ class CourseList extends StatelessWidget {
                 elevation: 4,
                 margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: ListTile(
-                  leading: SizedBox(
-                    width: 100,
-                    height: 70,
-                    child: Placeholder(),
-                  ),
-                  title: Text(state.courses[index].name),
+                  leading:
+                      Image.asset('course_img_${Random().nextInt(10) + 1}.png'),
+                  title: Text(state.courses[index].title),
                   subtitle: Text(state.courses[index].description),
                   trailing: IconButton(
                     icon: Icon(Icons.delete),
                     onPressed: () {
-                      BlocProvider.of<CourseBloc>(context).add(DeleteCourseEvent(state.courses[index].documentId));
+                      BlocProvider.of<CourseBloc>(context).add(
+                          DeleteCourseEvent(state.courses[index].documentId));
                     },
                   ),
                 ),

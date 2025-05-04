@@ -17,3 +17,4 @@ class UserError extends UserState {
 
   UserError(this.message);
 }
+

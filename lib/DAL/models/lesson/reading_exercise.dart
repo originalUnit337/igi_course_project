@@ -2,10 +2,12 @@ import 'question.dart';
 
 class ReadingExercise {
   String type;
+  String text;
   List<Question> questions;
 
   ReadingExercise({
     required this.type,
+    required this.text,
     required this.questions,
   });
 
@@ -17,6 +19,7 @@ class ReadingExercise {
 
     return ReadingExercise(
       type: json['type'],
+      text: json['text'],
       questions: questionsList,
     );
   }
@@ -24,6 +27,7 @@ class ReadingExercise {
   Map<String, dynamic> toJson() {
     return {
       'type': type,
+      'text': text,
       'questions': questions.map((question) => question.toJson()).toList(),
     };
   }

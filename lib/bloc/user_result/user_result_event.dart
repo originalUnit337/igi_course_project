@@ -17,3 +17,10 @@ class FetchUserResultEvent extends UserResultEvent {
 
   FetchUserResultEvent(this.courseId, this.lessonId);
 }
+
+class FetchUserLessonsResults extends UserResultEvent {
+  String userId;
+  String courseId;
+
+  FetchUserLessonsResults(this.userId, this.courseId);
+}

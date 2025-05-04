@@ -6,6 +6,8 @@ import 'package:igi_course_project/DAL/models/user_models/student.dart';
 import 'package:igi_course_project/bloc/course/course_bloc.dart';
 import 'package:igi_course_project/bloc/course/course_event.dart';
 import 'package:igi_course_project/bloc/course/course_state.dart';
+import 'package:igi_course_project/bloc/user_result/user_result_bloc.dart';
+import 'package:igi_course_project/bloc/user_result/user_result_event.dart';
 
 class StudentPage extends StatelessWidget {
   final Student currentUser;
@@ -67,6 +69,9 @@ class MyCoursesList extends StatelessWidget {
                   title: Text(myCourses[index].title),
                   subtitle: Text(myCourses[index].description),
                   onTap: () async {
+                    BlocProvider.of<UserResultBloc>(context).add(
+                        FetchUserLessonsResults(
+                            currentUser.uid, myCourses[index].documentId));
                     await Navigator.pushNamed(context, '/coursePage',
                         arguments: {
                           'course': myCourses[index],

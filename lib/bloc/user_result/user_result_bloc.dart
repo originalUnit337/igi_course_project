@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:igi_course_project/DAL/models/user_result/user_result.dart';
 import 'package:igi_course_project/DAL/repositories/user_result_repository.dart';
@@ -10,6 +12,7 @@ class UserResultBloc extends Bloc<UserResultEvent, UserResultState> {
   UserResultBloc(this.userResultRepository) : super(UserResultInitial()) {
     on<SaveUserResultEvent>(_onSaveUserResult);
     on<FetchUserResultEvent>(_onFetchUserResult);
+    on<FetchUserLessonsResults>(_onFetchUserLessonsResults);
   }
 
   Future<void> _onSaveUserResult(
@@ -34,13 +37,25 @@ class UserResultBloc extends Bloc<UserResultEvent, UserResultState> {
     try {
       // UserResult? userResult = await userResultRepository.getUserResult(
       //     event.courseId, event.userId);
-      List<UserResult?> userResult =
-          await userResultRepository.getUserResults(event.courseId, event.lessonId);
+      List<UserResult?> userResult = await userResultRepository.getUserResults(
+          event.courseId, event.lessonId);
       if (userResult != null) {
         emit(UserResultLoaded(userResult));
       } else {
         emit(UserResultError('Результаты не найдены'));
       }
+    } catch (e) {
+      emit(UserResultError(e.toString()));
+    }
+  }
+
+  FutureOr<void> _onFetchUserLessonsResults(
+      FetchUserLessonsResults event, Emitter<UserResultState> emit) async {
+    try {
+      emit(InProgress());
+      List<UserResult?> userResults = await userResultRepository
+          .getUserLessonsResults(event.userId, event.courseId);
+      emit(UserResultLoaded(userResults));
     } catch (e) {
       emit(UserResultError(e.toString()));
     }

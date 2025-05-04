@@ -47,7 +47,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
             Text('Роль: Учитель'),
             Text('UID: ${teacher.uid}'),
             Text('Почта: ${teacher.email}'),
-            Text('Созданные курсы: ${teacher.createdCourses}'),
+            Text('Созданные курсы: ${teacher.createdCourses.length}'),
           ],
         );
       case Student:
@@ -57,7 +57,8 @@ class _UserInfoPageState extends State<UserInfoPage> {
             Text('Роль: Студент'),
             Text('UID: ${student.uid}'),
             Text('Почта: ${student.email}'),
-            Text('Курсы, на которые подписан: ${student.subscribedCourses}'),
+            Text(
+                'Курсы, на которые подписан: ${student.subscribedCourses.length}'),
           ],
         );
       case Admin:

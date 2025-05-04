@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:igi_course_project/DAL/models/course/course.dart';
 import 'package:igi_course_project/DAL/models/lesson/lesson.dart';
 import 'package:igi_course_project/DAL/models/user_models/user.dart';
+import 'package:igi_course_project/DAL/models/user_result/user_result.dart';
 import 'package:igi_course_project/pages/roles/admin/user_info_page.dart';
 import 'package:igi_course_project/pages/roles/student/course_page.dart';
 import 'package:igi_course_project/pages/roles/student/lesson_page.dart';
+import 'package:igi_course_project/pages/roles/student/result_page.dart';
 import 'package:igi_course_project/pages/roles/teacher/course_details.dart';
 import 'package:igi_course_project/pages/roles/teacher/lesson_details.dart';
 
@@ -69,6 +71,21 @@ class AppNavigator {
             course: course,
             lesson: lesson,
             userId: userId,
+          ),
+        );
+      case '/resultPage':
+        final Map<String, dynamic> args =
+            settings.arguments as Map<String, dynamic>;
+        final Course course = args['course'];
+        final Lesson lesson = args['lesson'];
+        final String userId = args['userId'];
+        final UserResult userResult = args['userResult'];
+        return MaterialPageRoute(
+          builder: (context) => ResultPage(
+            course: course,
+            lesson: lesson,
+            userId: userId,
+            userResult: userResult,
           ),
         );
       case '/userInfoPage':

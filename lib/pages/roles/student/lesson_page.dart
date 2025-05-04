@@ -27,21 +27,19 @@ class LessonPage extends StatefulWidget {
 
 class _LessonPageState extends State<LessonPage> {
   final Map<String, String?> testUserAnswers = {};
-  final Map<String, String?> writtenExerciseAnswers =
-      {}; // Для письменных упражнений
+  final Map<String, String?> writtenExerciseAnswers = {};
   late List<YoutubePlayerController> _youtubePlayerControllers;
   late AudioPlayer _audioPlayer;
   PlayerState? _playerState;
   Duration? _duration;
   Duration? _position;
-  double _volume = 1.0; // Начальная громкость
+  double _volume = 1.0;
 
   @override
   void initState() {
     super.initState();
     _audioPlayer = AudioPlayer();
     _audioPlayer.setReleaseMode(ReleaseMode.stop);
-    // Инициализация контроллера YouTube
     if (widget.lesson.theoryUrls.isNotEmpty) {
       _youtubePlayerControllers = widget.lesson.theoryUrls.map((url) {
         final videoId = YoutubePlayerController.convertUrlToId(url);

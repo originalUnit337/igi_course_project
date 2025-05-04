@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -133,6 +134,7 @@ class WelcomePage extends StatelessWidget {
               SizedBox(
                 height: 40,
               ),
+              statistics(),
               Text(
                 'Преимущества:',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
@@ -204,4 +206,87 @@ class WelcomePage extends StatelessWidget {
       ),
     );
   }
+}
+
+Container statistics() {
+  return Container(
+    color: Colors.yellow[200],
+    width: double.infinity,
+    child: Column(
+      children: [
+        Text(
+          'Статистика',
+        ),
+        AspectRatio(
+          aspectRatio: 1.3,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: AspectRatio(
+                  aspectRatio: 1,
+                  child: PieChart(
+                    PieChartData(
+                        sectionsSpace: 0,
+                        centerSpaceRadius: 40,
+                        sections: List.generate(4, (i) {
+                          const radius = 50.0;
+                          const fontSize = 16.0;
+                          switch (i) {
+                            case 0:
+                              return PieChartSectionData(
+                                value: 40,
+                                title: '40%',
+                                radius: radius,
+                                titleStyle: TextStyle(
+                                  fontSize: fontSize,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              );
+                            case 1:
+                              return PieChartSectionData(
+                                value: 30,
+                                title: '30%',
+                                radius: radius,
+                                titleStyle: TextStyle(
+                                  fontSize: fontSize,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              );
+                            case 2:
+                              return PieChartSectionData(
+                                value: 15,
+                                title: '15%',
+                                radius: radius,
+                                titleStyle: TextStyle(
+                                  fontSize: fontSize,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              );
+                            case 3:
+                              return PieChartSectionData(
+                                value: 15,
+                                title: '15%',
+                                radius: radius,
+                                titleStyle: TextStyle(
+                                  fontSize: fontSize,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              );
+                            default:
+                              throw Error();
+                          }
+                        })),
+                  ),
+                ),
+              ),
+              // PieChart(
+              //   PieChartData(),
+              // ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
 }

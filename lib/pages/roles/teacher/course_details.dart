@@ -218,7 +218,7 @@ class _StudentResultsListState extends State<StudentResultsList> {
                           'lesson': widget.course.lessons.firstWhere((lesson) =>
                               lesson.title ==
                               state.userResult[index]!.lessonName),
-                          'userResult': state.userResult,
+                          'userResult': state.userResult[index],
                         });
                   },
                 ),

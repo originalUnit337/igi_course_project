@@ -27,14 +27,7 @@ class _TeacherResultPageState extends State<TeacherResultPage> {
   @override
   void initState() {
     super.initState();
-    // Инициализация контроллеров для обратной связи
-    for (var i = 0; i < widget.lesson.grammarExercises.length; i++) {
-      _feedbackControllers.add(TextEditingController());
-    }
-    for (var i = 0; i < widget.lesson.readingExercises.length; i++) {
-      _feedbackControllers.add(TextEditingController());
-    }
-    for (var i = 0; i < widget.lesson.auditionExercises.length; i++) {
+    for (var i = 0; i < widget.lesson.writtenExercises.length; i++) {
       _feedbackControllers.add(TextEditingController());
     }
   }
@@ -122,15 +115,6 @@ class _TeacherResultPageState extends State<TeacherResultPage> {
                                 'Вы ответили неверно',
                                 style: TextStyle(color: Colors.red),
                               ),
-                        SizedBox(height: 8),
-                        // Поле ввода для обратной связи от учителя
-                        TextField(
-                          controller: _feedbackControllers[currentIndex - 1],
-                          decoration: InputDecoration(
-                            labelText: 'Обратная связь',
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
                       ],
                     ),
                   ),
@@ -202,15 +186,6 @@ class _TeacherResultPageState extends State<TeacherResultPage> {
                                   'Вы ответили неверно',
                                   style: TextStyle(color: Colors.red),
                                 ),
-                          SizedBox(height: 8),
-                          // Поле ввода для обратной связи от учителя
-                          TextField(
-                            controller: _feedbackControllers[currentIndex - 1],
-                            decoration: InputDecoration(
-                              labelText: 'Обратная связь',
-                              border: OutlineInputBorder(),
-                            ),
-                          ),
                         ],
                       ),
                     ),
@@ -220,75 +195,38 @@ class _TeacherResultPageState extends State<TeacherResultPage> {
             );
           }).toList(),
 
-          // Отображение результатов для аудирования
+          // Отображение письменных упражнений
           Text(
-            'Audition Exercises Results',
+            'Written Exercises Feedback',
             style: Theme.of(context).textTheme.displayLarge,
             textAlign: TextAlign.center,
           ),
-          ...widget.lesson.auditionExercises.map((exercise) {
-            return ExpansionTile(
-              title: Text(
-                exercise.type,
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              children: exercise.questions.asMap().entries.map((entry) {
-                final question = entry.value;
-                final userAnswer =
-                    currentIndex < widget.userResult.testAnswers.length
-                        ? widget.userResult.testAnswers[currentIndex]
-                        : null;
-                final isCorrect = userAnswer == question.answer;
+          ...widget.lesson.writtenExercises.asMap().entries.map((entry) {
+            final index = entry.key;
+            final exercise = entry.value;
 
-                currentIndex++;
-                return Card(
-                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(question.task, style: TextStyle(fontSize: 16)),
-                        SizedBox(height: 8),
-                        // Отображение вариантов ответов в виде радио-кнопок
-                        Column(
-                          children: question.options.map((option) {
-                            return RadioListTile<String>(
-                              title: Text(option),
-                              value: option,
-                              groupValue: userAnswer,
-                              onChanged: null, // Отключаем возможность выбора
-                            );
-                          }).toList(),
-                        ),
-                        SizedBox(height: 8),
-                        Text(
-                          'Ваш ответ: ${userAnswer ?? "Не ответили"}',
-                          style: TextStyle(color: Colors.blue),
-                        ),
-                        isCorrect
-                            ? Text(
-                                'Вы ответили верно!',
-                                style: TextStyle(color: Colors.green),
-                              )
-                            : Text(
-                                'Вы ответили неверно',
-                                style: TextStyle(color: Colors.red),
-                              ),
-                        SizedBox(height: 8),
-                        // Поле ввода для обратной связи от учителя
-                        TextField(
-                          controller: _feedbackControllers[currentIndex - 1],
-                          decoration: InputDecoration(
-                            labelText: 'Обратная связь',
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ],
+            return Card(
+              margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(exercise.task, style: TextStyle(fontSize: 16)),
+                    SizedBox(height: 8),
+                    Text(widget.userResult.writtenExerciseAnswers[index] ??
+                        'Нет ответа'),
+                    TextField(
+                      controller: _feedbackControllers[index],
+                      decoration: InputDecoration(
+                        labelText: 'Введите обратную связь',
+                        border: OutlineInputBorder(),
+                      ),
+                      maxLines: 3,
                     ),
-                  ),
-                );
-              }).toList(),
+                  ],
+                ),
+              ),
             );
           }).toList(),
 
@@ -297,7 +235,7 @@ class _TeacherResultPageState extends State<TeacherResultPage> {
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
               onPressed: _submitFeedback,
-              child: Text('Отправить результаты'),
+              child: Text('Отправить feedback'),
             ),
           ),
 

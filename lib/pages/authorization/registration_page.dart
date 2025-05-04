@@ -66,7 +66,7 @@ class _RegisterFormState extends State<RegisterForm> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'Please register to get access to bla-bla-bla',
+            'Пожалуйста, зарегестрируйтесь для доступа к учебному порталу',
             style: TextStyle(fontSize: 18),
             textAlign: TextAlign.center,
           ),

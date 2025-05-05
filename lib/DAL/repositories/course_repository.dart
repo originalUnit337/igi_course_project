@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:igi_course_project/DAL/models/course/course.dart';
 import 'package:igi_course_project/DAL/models/lesson/lesson.dart';
 import 'package:igi_course_project/DAL/models/user_models/teacher.dart';
-import 'package:igi_course_project/pages/roles/teacher/course_details.dart';
 
 class CourseRepository {
   final FirebaseFirestore firestore;
@@ -12,13 +11,6 @@ class CourseRepository {
   Future<void> addCourse(Course course, Teacher currentTeacher) async {
     CollectionReference courses = firestore.collection('Courses');
     DocumentReference newCourseRef = await courses.add(course.toJson());
-    // CollectionReference lessonsRef = newCourseRef.collection('Lessons');
-    // for (var lesson in course.lessons) {
-    //   await lessonsRef.add(lesson.toJson());
-    // }
-    // await newCourseRef.update({
-    //   'lessons': FieldValue.delete(),
-    // });
     await FirebaseFirestore.instance
         .collection('users')
         .doc(currentTeacher.uid)
@@ -36,20 +28,8 @@ class CourseRepository {
           await Future.wait(snapshot.docs.map((doc) async {
         String documentId = doc.id;
 
-        // Получаем данные курса
         Course course =
             Course.fromJson(doc.data() as Map<String, dynamic>, id: documentId);
-
-        // // Получаем уроки из подколлекции Lessons
-        // QuerySnapshot lessonsSnapshot =
-        //     await doc.reference.collection('Lessons').get();
-        // List<Lesson> lessons = lessonsSnapshot.docs.map((lessonDoc) {
-        //   return Lesson.fromJson(lessonDoc.data() as Map<String, dynamic>,
-        //       id: lessonDoc.id);
-        // }).toList();
-
-        // Добавляем уроки в курс
-        //course.lessons = lessons;
 
         return course;
       }).toList());
@@ -81,7 +61,8 @@ class CourseRepository {
 
     await FirebaseFirestore.instance.runTransaction((transaction) async {
       DocumentSnapshot courseSnapshot = await transaction.get(courseRef);
-      Map<String, dynamic>? courseData = courseSnapshot.data() as Map<String, dynamic>?;
+      Map<String, dynamic>? courseData =
+          courseSnapshot.data() as Map<String, dynamic>?;
       int currentPopularity = courseData?['popularity'] ?? 0;
       int newPopularity = currentPopularity + 1;
       transaction.update(courseRef, {'popularity': newPopularity});
@@ -91,10 +72,6 @@ class CourseRepository {
         'subscribedCourses': FieldValue.arrayUnion([courseRef]),
       });
     });
-
-    // await FirebaseFirestore.instance.collection('users').doc(userId).update({
-    //   'subscribedCourses': FieldValue.arrayUnion([courseRef]),
-    // });
   }
 
   Future<void> deleteCourse(String courseId) async {
@@ -104,7 +81,6 @@ class CourseRepository {
 
       QuerySnapshot teachersSnapshot = await FirebaseFirestore.instance
           .collection('users')
-          //.where('role', isEqualTo: 'teacher')
           .where('subscribedCourses', arrayContains: courseRef)
           .get();
 
@@ -145,19 +121,8 @@ class CourseRepository {
     CollectionReference courses =
         FirebaseFirestore.instance.collection('Courses');
     try {
-      // Обновляем сам документ курса
       await courses.doc(course.documentId).update(course.toJson());
-
-      // Обновляем подколлекцию Lessons
-      // CollectionReference lessonsRef =
-      //     courses.doc(course.documentId).collection('Lessons');
-
-      // Проходим по всем урокам и обновляем их
-      // for (var lesson in course.lessons) {
-      //   await lessonsRef.doc(lesson.documentId).update(lesson.toJson());
-      // }
     } on Exception catch (e) {
-      // Обработка ошибок
       print('Error updating course: $e');
       rethrow;
     }
@@ -178,6 +143,4 @@ class CourseRepository {
       rethrow;
     }
   }
-
-  
 }

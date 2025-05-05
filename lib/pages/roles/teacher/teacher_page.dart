@@ -32,14 +32,6 @@ class TeacherPage extends StatelessWidget {
           )
         ],
       ),
-      // body: BlocListener<AuthBloc, AuthState>(
-      //     listener: (context, state) {
-      //       switch (state) {
-      //         case Refreshed _:
-      //           currentUser = state.userNodel as Teacher;
-      //       }
-      //     },
-      //     child: MyCoursesList(currentUser: currentUser)),
       body: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
         switch (state) {
           case Refreshed _:

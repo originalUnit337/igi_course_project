@@ -217,8 +217,9 @@ class _LessonPageState extends State<LessonPage> {
                               IconButton(
                                 icon: Icon(Icons.play_arrow),
                                 onPressed: () async {
-                                  await _audioPlayer
-                                      .setSource(UrlSource(exercise.url));
+                                  await _audioPlayer.setSource(UrlSource(
+                                    exercise.url,
+                                  ));
                                   await _audioPlayer.resume();
                                 },
                               ),

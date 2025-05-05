@@ -1,9 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-
-import 'package:video_player/video_player.dart';
-import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
@@ -33,8 +29,6 @@ class WelcomePage extends StatelessWidget {
                   Expanded(
                     child: Image.network(
                       'https://media.istockphoto.com/id/2173915109/photo/skill-competency-development-concept-up-new-ability-skill-training-for-technology-evolution.jpg?s=2048x2048&w=is&k=20&c=EntBZe7FHA2R7aGAA8OlfMgN7aoLf95MwU3ZOTk0iIU=', // Замените на URL вашей картинки
-                      // height: 200,
-                      // fit: BoxFit.cover,
                     ),
                   ),
                   SizedBox(width: 24),
@@ -148,10 +142,7 @@ class WelcomePage extends StatelessWidget {
                 '• Интерактивные уроки: Уникальные методики обучения, которые делают процесс увлекательным.',
                 style: TextStyle(fontSize: 18),
               ),
-              // Text(
-              //   '• Поддержка сообщества: Общайтесь с другими учащимися и преподавателями.',
-              //   style: TextStyle(fontSize: 18),
-              // ),
+
               Text(
                 '• Доступ к ресурсам: Получите доступ к множеству учебных материалов, включая видео, аудио и текстовые задания.',
                 style: TextStyle(fontSize: 18),
@@ -170,20 +161,8 @@ class WelcomePage extends StatelessWidget {
                     'Готовы погрузиться в уникальный путь изучения языков ? ->',
                     style: TextStyle(color: Colors.redAccent),
                   ),
-                  // ElevatedButton(
-                  //   onPressed: () {},
-                  //   child: Text('Открыть доступные курсы'),
-                  // ),
-                  // ElevatedButton(
-                  //   onPressed: () {
-                  //     // Действие для кнопки "Посмотреть демо-уроки"
-                  //   },
-                  //   child: Text('Посмотреть демо-уроки'),
-                  // ),
                   ElevatedButton(
-                    onPressed: () {
-                      // Действие для кнопки "Зарегистрироваться"
-                    },
+                    onPressed: () {},
                     child: Text('Зарегистрироваться'),
                   ),
                 ],

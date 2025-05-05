@@ -11,7 +11,12 @@ class UserResultRepository {
     await _firestore
         .collection('userResults')
         .doc(documentId)
-        .set(userResult.toJson());
+        .set(userResult.toJson())
+        .timeout(
+          const Duration(
+            seconds: 10,
+          ),
+        );
   }
 
   Future<List<UserResult>> getUserResults(

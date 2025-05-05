@@ -2,11 +2,11 @@ import 'package:igi_course_project/DAL/models/lesson/lesson.dart';
 
 class Course {
   final String documentId;
-  String title; // Название курса
-  String language; // Язык курса
-  String description; // Описание курса
+  String title;
+  String language;
+  String description;
   int popularity;
-  List<Lesson> lessons; // Список уроков
+  List<Lesson> lessons;
 
   Course({
     required this.documentId,
@@ -39,8 +39,7 @@ class Course {
         popularity: json['popularity'],
         lessons: lessonsList,
       );
-    }
-    else {
+    } else {
       return Course(
         documentId: id ?? '',
         title: json['title'],

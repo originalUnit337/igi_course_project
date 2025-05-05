@@ -80,7 +80,13 @@ class _UserInfoPageState extends State<UserInfoPage> {
       title: Text('Заблокировать пользователя'),
       value: user.isBlocked,
       onChanged: (bool value) {
-        // Здесь вы можете добавить логику для блокировки/разблокировки пользователя
+        if (user is Admin) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Нельзя блокировать администраторов')),
+          );
+          return;
+        }
+
         _toggleUserBlockStatus(user, value);
         setState(() {
           user.isBlocked = value;

@@ -26,7 +26,6 @@ class LessonDetails extends StatelessWidget {
           bottom: TabBar(
             tabs: [
               Tab(text: 'Уроки'),
-              //Tab(text: 'Результаты студентов'),
             ],
           ),
         ),
@@ -60,7 +59,6 @@ class _AssignmentsListState extends State<AssignmentsList> {
   @override
   void initState() {
     super.initState();
-    // Инициализируем контроллеры с текущими значениями курса
     _lessonNameController = TextEditingController(text: widget.lesson.title);
     _lessonDescriptionController =
         TextEditingController(text: widget.lesson.description);
@@ -68,7 +66,6 @@ class _AssignmentsListState extends State<AssignmentsList> {
 
   @override
   void dispose() {
-    // Освобождаем контроллеры при уничтожении виджета
     _lessonNameController.dispose();
     _lessonDescriptionController.dispose();
     super.dispose();
@@ -97,10 +94,23 @@ class _AssignmentsListState extends State<AssignmentsList> {
           actions: [
             TextButton(
               onPressed: () {
-                setState(() {
-                  widget.lesson.theoryUrls.add(newUrl);
-                });
-                Navigator.of(context).pop();
+                final RegExp youtubeUrlPattern = RegExp(
+                  r'^(https?://)?(www\.)?(youtube\.com/watch\?v=|youtu\.be/)[\w-]{11}$',
+                  caseSensitive: false,
+                );
+
+                if (youtubeUrlPattern.hasMatch(newUrl)) {
+                  setState(() {
+                    widget.lesson.theoryUrls.add(newUrl);
+                  });
+                  Navigator.of(context).pop();
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                        content:
+                            Text('Введите корректный URL на видео YouTube')),
+                  );
+                }
               },
               child: Text('Добавить'),
             ),
@@ -125,8 +135,6 @@ class _AssignmentsListState extends State<AssignmentsList> {
   @override
   Widget build(BuildContext context) {
     void _saveCourseDetails(Course course, Lesson lesson) {
-      // BlocProvider.of<CourseBloc>(context).add(UpdateLessonEvent(
-      //     course.documentId, widget.lesson.documentId, lesson));
       BlocProvider.of<CourseBloc>(context).add(UpdateCourseEvent(course));
     }
 
@@ -136,11 +144,8 @@ class _AssignmentsListState extends State<AssignmentsList> {
         tooltip: 'Сохранить изменения',
         child: Icon(Icons.save),
       ), // appBar: AppBar(
-      //   title: Text('Редактировать ${widget.course.name}'),
-      // ),
       body: ListView(
         children: [
-          // Поля для редактирования названия, описания и языка курса
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -300,8 +305,7 @@ class _AssignmentsListState extends State<AssignmentsList> {
 }
 
 class ExerciseWidget extends StatefulWidget {
-  final dynamic
-      exercise; // Это может быть GrammarExercise, ReadingExercise или AuditionExercise
+  final dynamic exercise;
   final VoidCallback onDelete;
 
   const ExerciseWidget(
@@ -316,19 +320,16 @@ class _ExerciseWidgetState extends State<ExerciseWidget> {
   @override
   void initState() {
     super.initState();
-    // Инициализируем контроллер с текущим значением типа упражнения
     _typeController = TextEditingController(text: widget.exercise.type);
   }
 
   @override
   void dispose() {
-    // Освобождаем контроллер при уничтожении виджета
     _typeController.dispose();
     super.dispose();
   }
 
   void _addNewQuestion() {
-    // Создаем новый вопрос с предопределенными значениями
     final newQuestion = Question(
       task: 'ПРИМЕР ЗАДАНИЯ',
       options: [
@@ -340,7 +341,6 @@ class _ExerciseWidgetState extends State<ExerciseWidget> {
       answer: 'ПРИМЕР ПРАВИЛЬНОГО ОТВЕТА',
     );
 
-    // Добавляем новый вопрос в список и обновляем состояние
     setState(() {
       widget.exercise.questions.add(newQuestion);
     });
@@ -360,17 +360,15 @@ class _ExerciseWidgetState extends State<ExerciseWidget> {
               decoration: InputDecoration(labelText: 'Тип упражнения'),
               onChanged: (value) {
                 setState(() {
-                  widget.exercise.type = value; // Обновляем тип упражнения
+                  widget.exercise.type = value;
                 });
               },
             ),
-            // Условное отображение полей в зависимости от типа упражнения
             if (widget.exercise is ReadingExercise) ...[
               TextField(
                 decoration:
                     InputDecoration(labelText: 'Введите текст для чтения'),
                 onChanged: (value) {
-                  // Обновите соответствующее поле в ReadingExercise
                   (widget.exercise as ReadingExercise).text = value;
                 },
               ),
@@ -378,19 +376,16 @@ class _ExerciseWidgetState extends State<ExerciseWidget> {
               TextField(
                 decoration: InputDecoration(labelText: 'Введите URL аудио'),
                 onChanged: (value) {
-                  // Обновите соответствующее поле в AuditionExercise
                   (widget.exercise as AuditionExercise).url = value;
                 },
               ),
             ],
-            //Text(widget.exercise.type, style: TextStyle(fontSize: 16)),
             ...widget.exercise.questions.map((question) {
               return QuestionWidget(
                 question: question,
                 onDelete: () {
                   setState(() {
-                    widget.exercise.questions
-                        .remove(question); // Удаляем вопрос из списка
+                    widget.exercise.questions.remove(question);
                   });
                 },
                 onAnswerSelected: (Question value) {},
@@ -439,7 +434,6 @@ class _QuestionWidgetState extends State<QuestionWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Поле для редактирования текста вопроса
             TextField(
               controller: TextEditingController(text: widget.question.task),
               decoration: InputDecoration(labelText: 'Вопрос'),
@@ -448,7 +442,6 @@ class _QuestionWidgetState extends State<QuestionWidget> {
               },
             ),
             SizedBox(height: 8),
-            // Отображение вариантов ответов
             Column(
               children: widget.question.options.map((option) {
                 return Row(
@@ -460,8 +453,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                       icon: Icon(Icons.delete),
                       onPressed: () {
                         setState(() {
-                          widget.question.options
-                              .remove(option); // Удаляем вариант ответа
+                          widget.question.options.remove(option);
                         });
                       },
                     ),
@@ -471,7 +463,6 @@ class _QuestionWidgetState extends State<QuestionWidget> {
             ),
             ElevatedButton(
               onPressed: () {
-                // Логика для добавления нового варианта ответа
                 showDialog(
                   context: context,
                   builder: (context) {
@@ -489,8 +480,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                         TextButton(
                           onPressed: () {
                             setState(() {
-                              widget.question.options.add(
-                                  newOptionText); // Добавляем новый вариант
+                              widget.question.options.add(newOptionText);
                             });
                             Navigator.of(context).pop();
                           },
@@ -579,7 +569,7 @@ class _WrittenExerciseWidgetState extends State<WrittenExerciseWidget> {
               decoration: InputDecoration(labelText: 'Тип задания'),
               onChanged: (value) {
                 setState(() {
-                  widget.exercise.type = value; // Обновляем тип задания
+                  widget.exercise.type = value;
                 });
               },
             ),
@@ -588,20 +578,10 @@ class _WrittenExerciseWidgetState extends State<WrittenExerciseWidget> {
               decoration: InputDecoration(labelText: 'Задание'),
               onChanged: (value) {
                 setState(() {
-                  widget.exercise.task = value; // Обновляем текст задания
+                  widget.exercise.task = value;
                 });
               },
             ),
-            // TextField(
-            //   controller: _answerController,
-            //   decoration: InputDecoration(labelText: 'Ответ студента'),
-            //   onChanged: (value) {
-            //     setState(() {
-            //       widget.exercise.studentAnswer =
-            //           value; // Обновляем ответ студента
-            //     });
-            //   },
-            // ),
             ElevatedButton(
               onPressed: widget.onDelete,
               child: Text('Удалить задание'),

@@ -21,9 +21,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(AuthLoading());
     try {
       final user = await _authRepository.signIn(event.email, event.password);
-      // final prefs = await SharedPreferences.getInstance();
-      // await prefs.setString('userId', user!.uid);
-      // await prefs.setString('role', 'user');
       emit(AuthSignedIn(userModel: user!));
     } catch (e) {
       emit(AuthError(message: e.toString()));
@@ -42,9 +39,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       final user =
           await _authRepository.signUp(event.email, event.password, event.role);
-      // final prefs = await SharedPreferences.getInstance();
-      // await prefs.setString('userId', user!.uid);
-      // await prefs.setString('role', 'user');
       emit(AuthSignedIn(userModel: user!));
     } catch (e) {
       emit(AuthError(message: e.toString()));
